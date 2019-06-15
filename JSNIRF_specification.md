@@ -158,76 +158,76 @@ using the bellow table
 
 |          SNIRF Data Container              |           JSNIRF Data Container                    |
 |--------------------------------------------|----------------------------------------------------|
-|` /                                        `|` "NIRSData" : {                                   `|
-|` /formatVersion                           `|`      "formatVersion": "s",                       `|
-|` /nirs[]                                  `|                                                    |
-|`    .data[]                               `|`      "data": [                                   `|
-|                                            |`         {                                        `|
-|`       .dataTimeSeries                    `|`            "dataTimeSeries":      [[...]],       `|
-|`       .time                              `|`            "time":                 [...],        `|
-|`       .measurementList[]                 `|`            "measurementList": {                  `|
-|`           .sourceIndex                   `|`                "sourceIndex":       <i>,         `|
-|`           .detectorIndex                 `|`                "detectorIndex":     <i>,         `|
-|`           .wavelengthIndex               `|`                "wavelengthIndex":   <i>,         `|
-|`           .dataType                      `|`                "dataType":          <i>,         `|
-|`           .dataTypeLabel                 `|`                "dataTypeLabel":     "s",         `|
-|`           .dataTypeIndex                 `|`                "dataTypeIndex":     <i>,         `|
-|`           .sourcePower                   `|`                "sourcePower":       <f>,         `|
-|`           .detectorGain                  `|`                "detectorGain":      <f>,         `|
-|`           .moduleIndex                   `|`                "moduleIndex":       <i>,         `|
-|                                            |`         },                                       `|
-|                                            |`         {...}                                    `|
-|                                            |`      ],                                          `|
-|`    .stim[]                               `|`      "stim": [                                   `|
-|                                            |`         {                                        `|
-|`        .name                             `|`             "name":                 "s",         `|
-|`        .data                             `|`             "data":               [[...]],       `|
-|                                            |`         },                                       `|
-|                                            |`         {...}                                    `|
-|                                            |`      ],                                          `|
-|`    .probe                                `|`      "probe": {                                  `|
-|`        .wavelengths                      `|`             "wavelengths":         [...],        `|
-|`        .wavelengthsEmission              `|`             "wavelengthsEmission": [...],        `|
-|`        .sourcePos                        `|`             "sourcePos":          [[...]],       `|
-|`        .sourcePos3D                      `|`             "sourcePos3D":        [[...]],       `|
-|`        .detectorPos                      `|`             "detectorPos":        [[...]],       `|
-|`        .detectorPos3D                    `|`             "detectorPos3D":      [[...]],       `|
-|`        .frequencies                      `|`             "frequencies":         [...],        `|
-|`        .timeDelays                       `|`             "timeDelays":          [...],        `|
-|`        .timeDelayWidths                  `|`             "timeDelayWidths":     [...],        `|
-|`        .momentOrders                     `|`             "momentOrders":        [...],        `|
-|`        .correlationTimeDelays            `|`             "correlationTimeDelays":[...],       `|
-|`        .correlationTimeDelayWidths       `|`             "correlationTimeDelayWidths": [...], `|
-|`        .sourceLabels[]                   `|`             "sourceLabels":        [...],        `|
-|`        .detectorLabels[]                 `|`             "detectorLabels":      [...],        `|
-|`        .landmarkPos                      `|`             "landmarkPos":        [[...]],       `|
-|`        .landmarkPos3D                    `|`             "landmarkPos3D":      [[...]],       `|
-|`        .landmarkLabels[]                 `|`             "landmarkLabels":      [...],        `|
-|`        .useLocalIndex                    `|`             "useLocalIndex":        <i>          `|
-|                                            |`      },                                          `|
-|`    .metaDataTags[]                       `|`      "metaDataTags": [                           `|
-|                                            |`         {                                        `|
-|`        'ManufacturerName'                `|`             "ManufacturerName":     "s",         `|
-|`        'Model'                           `|`             "Model":                "s",         `|
-|`        'SubjectID'                       `|`             "SubjectID":            "s",         `|
-|`        'MeasurementDate'                 `|`             "MeasurementDate":      "s",         `|
-|`        'MeasurementTime'                 `|`             "MeasurementTime":      "s",         `|
-|`        'SpatialUnit'                     `|`             "SpatialUnit":          "s",         `|
-|`        'SubjectName'                     `|`             "SubjectName":          "s",         `|
-|`        'StudyID'                         `|`             "StudyID":              "s",         `|
-|                                            |`         },                                       `|
-|                                            |`         {...}                                    `|
-|                                            |`      ],                                          `|
-|`    .aux[]                                `|`      "aux": [                                    `|
-|                                            |`         {                                        `|
-|`        .name                             `|`          "name":                    "s",         `|
-|`        .dataTimeSeries                   `|`          "dataTimeSeries":        [[...]],       `|
-|`        .time                             `|`          "time":                   [...],        `|
-|`        .timeOffset                       `|`          "timeOffset":             [...],        `|
-|                                            |`         },                                       `|
-|                                            |`         {...}                                    `|
-|                                            |`      ]                                           `|
-|                                            |` }                                                `|
+|` /                                        `|` "NIRSData" : {                                   `|
+|` /formatVersion                           `|`      "formatVersion": "s",                       `|
+|` /nirs[]                                  `|                                                    |
+|`    .data[]                               `|`      "data": [                                   `|
+|                                            |`         {                                        `|
+|`       .dataTimeSeries                    `|`            "dataTimeSeries":      [[...]],       `|
+|`       .time                              `|`            "time":                 [...],        `|
+|`       .measurementList[]                 `|`            "measurementList": {                  `|
+|`           .sourceIndex                   `|`                "sourceIndex":       <i>,         `|
+|`           .detectorIndex                 `|`                "detectorIndex":     <i>,         `|
+|`           .wavelengthIndex               `|`                "wavelengthIndex":   <i>,         `|
+|`           .dataType                      `|`                "dataType":          <i>,         `|
+|`           .dataTypeLabel                 `|`                "dataTypeLabel":     "s",         `|
+|`           .dataTypeIndex                 `|`                "dataTypeIndex":     <i>,         `|
+|`           .sourcePower                   `|`                "sourcePower":       <f>,         `|
+|`           .detectorGain                  `|`                "detectorGain":      <f>,         `|
+|`           .moduleIndex                   `|`                "moduleIndex":       <i>,         `|
+|                                            |`         },                                       `|
+|                                            |`         {...}                                    `|
+|                                            |`      ],                                          `|
+|`    .stim[]                               `|`      "stim": [                                   `|
+|                                            |`         {                                        `|
+|`        .name                             `|`             "name":                 "s",         `|
+|`        .data                             `|`             "data":               [[...]],       `|
+|                                            |`         },                                       `|
+|                                            |`         {...}                                    `|
+|                                            |`      ],                                          `|
+|`    .probe                                `|`      "probe": {                                  `|
+|`        .wavelengths                      `|`             "wavelengths":         [...],        `|
+|`        .wavelengthsEmission              `|`             "wavelengthsEmission": [...],        `|
+|`        .sourcePos                        `|`             "sourcePos":          [[...]],       `|
+|`        .sourcePos3D                      `|`             "sourcePos3D":        [[...]],       `|
+|`        .detectorPos                      `|`             "detectorPos":        [[...]],       `|
+|`        .detectorPos3D                    `|`             "detectorPos3D":      [[...]],       `|
+|`        .frequencies                      `|`             "frequencies":         [...],        `|
+|`        .timeDelays                       `|`             "timeDelays":          [...],        `|
+|`        .timeDelayWidths                  `|`             "timeDelayWidths":     [...],        `|
+|`        .momentOrders                     `|`             "momentOrders":        [...],        `|
+|`        .correlationTimeDelays            `|`             "correlationTimeDelays":[...],       `|
+|`        .correlationTimeDelayWidths       `|`             "correlationTimeDelayWidths": [...], `|
+|`        .sourceLabels[]                   `|`             "sourceLabels":        [...],        `|
+|`        .detectorLabels[]                 `|`             "detectorLabels":      [...],        `|
+|`        .landmarkPos                      `|`             "landmarkPos":        [[...]],       `|
+|`        .landmarkPos3D                    `|`             "landmarkPos3D":      [[...]],       `|
+|`        .landmarkLabels[]                 `|`             "landmarkLabels":      [...],        `|
+|`        .useLocalIndex                    `|`             "useLocalIndex":        <i>          `|
+|                                            |`      },                                          `|
+|`    .metaDataTags[]                       `|`      "metaDataTags": [                           `|
+|                                            |`         {                                        `|
+|`        'ManufacturerName'                `|`             "ManufacturerName":     "s",         `|
+|`        'Model'                           `|`             "Model":                "s",         `|
+|`        'SubjectID'                       `|`             "SubjectID":            "s",         `|
+|`        'MeasurementDate'                 `|`             "MeasurementDate":      "s",         `|
+|`        'MeasurementTime'                 `|`             "MeasurementTime":      "s",         `|
+|`        'SpatialUnit'                     `|`             "SpatialUnit":          "s",         `|
+|`        'SubjectName'                     `|`             "SubjectName":          "s",         `|
+|`        'StudyID'                         `|`             "StudyID":              "s",         `|
+|                                            |`         },                                       `|
+|                                            |`         {...}                                    `|
+|                                            |`      ],                                          `|
+|`    .aux[]                                `|`      "aux": [                                    `|
+|                                            |`         {                                        `|
+|`        .name                             `|`          "name":                    "s",         `|
+|`        .dataTimeSeries                   `|`          "dataTimeSeries":        [[...]],       `|
+|`        .time                             `|`          "time":                   [...],        `|
+|`        .timeOffset                       `|`          "timeOffset":             [...],        `|
+|                                            |`         },                                       `|
+|                                            |`         {...}                                    `|
+|                                            |`      ]                                           `|
+|                                            |` }                                                `|
 
 
 In the above table, the notations are explained below
