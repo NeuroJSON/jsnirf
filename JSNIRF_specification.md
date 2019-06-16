@@ -8,7 +8,7 @@ JSNIRF: A lightweight and portable fNIRS data storage format
 - **Abstract**:
 
 > JSNIRF is a portable format for storage, interchange and processing
-data generated from functional near-infrared spectroscopy data - an emerging
+data generated from functional near-infrared spectroscopy - an emerging
 neuroimaging technique. Built upon the JData and SNIRF specifications, 
 a JSNIRF file has both a text-based interface using the JavaScript 
 Object Notation (JSON) [RFC4627] format and a binary interface using 
@@ -61,18 +61,20 @@ measurements may also need to be recorded.
 Most commercially available fNIRS systems use vendor-specific format 
 to store the measured data, making those difficult to be share among 
 the community. The recent development of the Shared Near Infrared File 
-Format Specification, or SNIRF format, specifically addresses this 
+Format Specification, or [SNIRF format](https://github.com/fnirs/snirf), 
+specifically addresses this 
 challenge and aims to provide a unified interface and format to share 
 fNIRS measurements between systems across vendors.
 
-SNIRF specification uses HDF5 as the underlying file format to capture the 
+The SNIRF specification uses HDF5 as the underlying file format to capture the 
 essential data generated from various fNIRS devices or experiments.
 In this document, we aim to develop a light-weight, portable, simple
 interface to store SNIRF-compatible data, and suppements the HDF5 
 based performance-oriented SNIRF files with additional features such 
 as human-readability, built-in data compression, data grouping and 
 easy integration with other neuroanatomical or functional measurements 
-that can be potentially stored using JData-based formats.
+that can be potentially stored using 
+[JData-based formats](https://github.com/fangq/jdata/blob/master/JData_specification.md).
 
 Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](http://json.org) 
 (JSON) as the text-based storage format and [Universal Binary JSON (UBJSON)](http://ubjson.org) 
