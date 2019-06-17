@@ -158,78 +158,78 @@ using the bellow mapping table
 
 ***Table 1. A mapping table for HDF5 SNIRF file to JSNIRF SNIRFData structure***
 
-|          SNIRF Data Container              |      JSNIRF Data Container (in JSON format)        |Required|
-|--------------------------------------------|----------------------------------------------------|--------|
-| `/nirs{}`                                  | `"SNIRFData" : [`                                  |        |
-|                                            |    `{`                                             |        |
-|  `formatVersion`                           |      `"formatVersion": "s",`                       |   *    |
-|     `metaDataTags`                         |      `"metaDataTags": {`                           |   *    |
-|        `'SubjectID'`                       |             `"SubjectID":            "s",`         |   *    |
-|        `'MeasurementDate'`                 |             `"MeasurementDate":      "s",`         |   *    |
-|        `'MeasurementTime'`                 |             `"MeasurementTime":      "s",`         |   *    |
-|        `'SpatialUnit'`                     |             `"SpatialUnit":          "s",`         |   *    |
-|        `'SubjectName'`                     |             `"SubjectName":          "s",`         |        |
-|        `'StudyID'`                         |             `"StudyID":              "s",`         |        |
-|        `'ManufacturerName'`                |             `"ManufacturerName":     "s",`         |        |
-|        `'Model'`                           |             `"Model":                "s",`         |        |
-|                                            |      `},`                                          |        |
-|     `data{}`                               |      `"data": [`                                   |   *    |
-|                                            |         `{`                                        |        |
-|        `dataTimeSeries`                    |            `"dataTimeSeries":    [[<f>,...]],`     |   *    |
-|        `time`                              |            `"time":               [<f>,...],`      |   *    |
-|        `measurementList{}`                 |            `"measurementList": {`                  |   *    |
-|            `sourceIndex`                   |                `"sourceIndex":    [<i>,...],`      |   *    |
-|            `detectorIndex`                 |                `"detectorIndex":  [<i>,...],`      |   *    |
-|            `wavelengthIndex`               |                `"wavelengthIndex":[<i>,...],`      |   *    |
-|            `dataType`                      |                `"dataType":       [<i>,...],`      |   *    |
-|            `dataTypeLabel`                 |                `"dataTypeLabel":  ["s",...],`      |        |
-|            `dataTypeIndex`                 |                `"dataTypeIndex":  [<i>,...],`      |   *    |
-|            `sourcePower`                   |                `"sourcePower":    [<f>,...],`      |        |
-|            `detectorGain`                  |                `"detectorGain":   [<f>,...],`      |        |
-|            `moduleIndex`                   |                `"moduleIndex":    [<i>,...],`      |        |
-|                                            |            `}`                                     |        |
-|                                            |         `},`                                       |        |
-|                                            |         `{...}`                                    |        |
-|                                            |      `],`                                          |        |
-|     `stim{}`                               |      `"stim": [`                                   |        |
-|                                            |         `{`                                        |        |
-|         `name`                             |             `"name":                 "s",`         |   +    |
-|         `data`                             |             `"data":             [[<f>,...]],`     |   +    |
-|                                            |         `},`                                       |        |
-|                                            |         `{...}`                                    |        |
-|                                            |      `],`                                          |        |
-|     `probe`                                |      `"probe": {`                                  |   *    |
-|         `wavelengths`                      |             `"wavelengths":       [<f>,...],`      |   *    |
-|         `wavelengthsEmission`              |             `"wavelengthsEmission":[<f>,...],`     |        |
-|         `sourcePos`                        |             `"sourcePos":        [[<f>,...]],`     |   *    |
-|         `sourcePos3D`                      |             `"sourcePos3D":      [[<f>,...]],`     |        |
-|         `detectorPos`                      |             `"detectorPos":      [[<f>,...]],`     |   *    |
-|         `detectorPos3D`                    |             `"detectorPos3D":    [[<f>,...]],`     |        |
-|         `frequencies`                      |             `"frequencies":       [<f>,...],`      |        |
-|         `timeDelays`                       |             `"timeDelays":        [<f>,...],`      |        |
-|         `timeDelayWidths`                  |             `"timeDelayWidths":   [<f>,...],`      |        |
-|         `momentOrders`                     |             `"momentOrders":      [<f>,...],`      |        |
-|         `correlationTimeDelays`            |             `"correlationTimeDelays":[<f>,...],`   |        |
-|         `correlationTimeDelayWidths`       |             `"correlationTimeDelayWidths":[<f>,...],`|        |
-|         `sourceLabels`                     |             `"sourceLabels":      ["s",...],`      |        |
-|         `detectorLabels`                   |             `"detectorLabels":    ["s",...],`      |        |
-|         `landmarkPos`                      |             `"landmarkPos":      [[<f>,...]],`     |        |
-|         `landmarkPos3D`                    |             `"landmarkPos3D":    [[<f>,...]],`     |        |
-|         `landmarkLabels`                   |             `"landmarkLabels":    ["s",...],`      |        |
-|         `useLocalIndex`                    |             `"useLocalIndex":        <i>`          |        |
-|                                            |      `},`                                          |        |
-|     `aux{}`                                |      `"aux": [`                                    |        |
-|                                            |         `{`                                        |        |
-|         `name`                             |          `"name":                    "s",`         |   +    |
-|         `dataTimeSeries`                   |          `"dataTimeSeries":        [[...]],`       |   +    |
-|         `time`                             |          `"time":                   [...],`        |   +    |
-|         `timeOffset`                       |          `"timeOffset":             [...],`        |        |
-|                                            |         `},`                                       |        |
-|                                            |         `{...}`                                    |        |
-|                                            |      `]`                                           |        |
-|                                            |    `},`                                            |        |
-|                                            |    `{...}`                                         |        |
-|                                            | `}`                                                |        |
+|          SNIRF Data Container         |     JSNIRF Data Container (in JSON format)    |Required|
+|---------------------------------------|-----------------------------------------------|--------|
+| `/nirs{}`                             | `"SNIRFData" : [`                             |        |
+|                                       |    `{`                                        |        |
+|  `formatVersion`                      |      `"formatVersion": "s",`                  |   *    |
+|     `metaDataTags`                    |      `"metaDataTags": {`                      |   *    |
+|        `'SubjectID'`                  |             `"SubjectID":            "s",`    |   *    |
+|        `'MeasurementDate'`            |             `"MeasurementDate":      "s",`    |   *    |
+|        `'MeasurementTime'`            |             `"MeasurementTime":      "s",`    |   *    |
+|        `'SpatialUnit'`                |             `"SpatialUnit":          "s",`    |   *    |
+|        `'SubjectName'`                |             `"SubjectName":          "s",`    |        |
+|        `'StudyID'`                    |             `"StudyID":              "s",`    |        |
+|        `'ManufacturerName'`           |             `"ManufacturerName":     "s",`    |        |
+|        `'Model'`                      |             `"Model":                "s",`    |        |
+|                                       |      `},`                                     |        |
+|     `data{}`                          |      `"data": [`                              |   *    |
+|                                       |         `{`                                   |        |
+|        `dataTimeSeries`               |            `"dataTimeSeries":    [[<f>,...]],`|   *    |
+|        `time`                         |            `"time":               [<f>,...],` |   *    |
+|        `measurementList{}`            |            `"measurementList": {`             |   *    |
+|            `sourceIndex`              |                `"sourceIndex":    [<i>,...],` |   *    |
+|            `detectorIndex`            |                `"detectorIndex":  [<i>,...],` |   *    |
+|            `wavelengthIndex`          |                `"wavelengthIndex":[<i>,...],` |   *    |
+|            `dataType`                 |                `"dataType":       [<i>,...],` |   *    |
+|            `dataTypeLabel`            |                `"dataTypeLabel":  ["s",...],` |        |
+|            `dataTypeIndex`            |                `"dataTypeIndex":  [<i>,...],` |   *    |
+|            `sourcePower`              |                `"sourcePower":    [<f>,...],` |        |
+|            `detectorGain`             |                `"detectorGain":   [<f>,...],` |        |
+|            `moduleIndex`              |                `"moduleIndex":    [<i>,...],` |        |
+|                                       |            `}`                                |        |
+|                                       |         `},`                                  |        |
+|                                       |         `{...}`                               |        |
+|                                       |      `],`                                     |        |
+|     `stim{}`                          |      `"stim": [`                              |        |
+|                                       |         `{`                                   |        |
+|         `name`                        |             `"name":                 "s",`    |   +    |
+|         `data`                        |             `"data":             [[<f>,...]],`|   +    |
+|                                       |         `},`                                  |        |
+|                                       |         `{...}`                               |        |
+|                                       |      `],`                                     |        |
+|     `probe`                           |      `"probe": {`                             |   *    |
+|         `wavelengths`                 |             `"wavelengths":       [<f>,...],` |   *    |
+|         `wavelengthsEmission`         |             `"wavelengthsEmission":[<f>,...],`|        |
+|         `sourcePos`                   |             `"sourcePos":        [[<f>,...]],`|   *    |
+|         `sourcePos3D`                 |             `"sourcePos3D":      [[<f>,...]],`|        |
+|         `detectorPos`                 |             `"detectorPos":      [[<f>,...]],`|   *    |
+|         `detectorPos3D`               |             `"detectorPos3D":    [[<f>,...]],`|        |
+|         `frequencies`                 |             `"frequencies":       [<f>,...],` |        |
+|         `timeDelays`                  |             `"timeDelays":        [<f>,...],` |        |
+|         `timeDelayWidths`             |             `"timeDelayWidths":   [<f>,...],` |        |
+|         `momentOrders`                |             `"momentOrders":      [<f>,...],` |        |
+|         `correlationTimeDelays`       |             `"correlationTimeDelays":[<f>,...],`   |        |
+|         `correlationTimeDelayWidths`  |             `"correlationTimeDelayWidths":[<f>,...],`|        |
+|         `sourceLabels`                |             `"sourceLabels":      ["s",...],` |        |
+|         `detectorLabels`              |             `"detectorLabels":    ["s",...],` |        |
+|         `landmarkPos`                 |             `"landmarkPos":      [[<f>,...]],`|        |
+|         `landmarkPos3D`               |             `"landmarkPos3D":    [[<f>,...]],`|        |
+|         `landmarkLabels`              |             `"landmarkLabels":    ["s",...],` |        |
+|         `useLocalIndex`               |             `"useLocalIndex":        <i>`     |        |
+|                                       |      `},`                                     |        |
+|     `aux{}`                           |      `"aux": [`                               |        |
+|                                       |         `{`                                   |        |
+|         `name`                        |          `"name":                    "s",`    |   +    |
+|         `dataTimeSeries`              |          `"dataTimeSeries":        [[...]],`  |   +    |
+|         `time`                        |          `"time":                   [...],`   |   +    |
+|         `timeOffset`                  |          `"timeOffset":             [...],`   |        |
+|                                       |         `},`                                  |        |
+|                                       |         `{...}`                               |        |
+|                                       |      `]`                                      |        |
+|                                       |    `},`                                       |        |
+|                                       |    `{...}`                                    |        |
+|                                       | `}`                                           |        |
 
 
 In the above table, the notations are explained below
