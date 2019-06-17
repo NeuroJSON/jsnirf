@@ -266,11 +266,11 @@ array object with 1 or multiple elements - the first element maps to `/nirs` or 
 2nd element maps to `/nirs2`, and so on. When it contains only a single element, the `SNIRData`
 can be the value of the first element, without needing the array container.
 
-### formatVersion (mapped from SNIRF `/nirs{}/formatVersion`)
+### formatVersion (mapped from SNIRF `formatVersion`)
 
-The `formatVersion` object, originally outside of `/nirs{}` in SNIRF, is now repeated in each 
-of the element in the `SNIRFData` element. This way, the total element count of the `SNIRFData`
-container equals to the total sub-groups of the `/nirs{}` object.
+The `formatVersion` object, originally stored in the root level in SNIRF, is now a subfield 
+repeated in each of the element in the `SNIRFData` object. This way, the total element count 
+of the `SNIRFData` container equals to the total sub-group count of the `/nirs{}` object.
 
 ### measurementList (mapped from SNIRF `/nirs{}/data{}/measurementList{}`)
 
