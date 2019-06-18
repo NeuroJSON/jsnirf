@@ -166,14 +166,15 @@ using the bellow mapping table
 |                                       |    `{`                                        |        |
 |  `formatVersion`                      |      `"formatVersion": "s",`                  |   *    |
 |     `metaDataTags`                    |      `"metaDataTags": {`                      |   *    |
-|        `'SubjectID'`                  |             `"SubjectID":            "s",`    |   *    |
-|        `'MeasurementDate'`            |             `"MeasurementDate":      "s",`    |   *    |
-|        `'MeasurementTime'`            |             `"MeasurementTime":      "s",`    |   *    |
-|        `'SpatialUnit'`                |             `"SpatialUnit":          "s",`    |   *    |
-|        `'SubjectName'`                |             `"SubjectName":          "s",`    |        |
-|        `'StudyID'`                    |             `"StudyID":              "s",`    |        |
-|        `'ManufacturerName'`           |             `"ManufacturerName":     "s",`    |        |
-|        `'Model'`                      |             `"Model":                "s",`    |        |
+|        `"SubjectID"`                  |             `"SubjectID":            "s",`    |   *    |
+|        `"MeasurementDate"`            |             `"MeasurementDate":      "s",`    |   *    |
+|        `"MeasurementTime"`            |             `"MeasurementTime":      "s",`    |   *    |
+|        `"SpatialUnit"`                |             `"SpatialUnit":          "s",`    |   *    |
+|        `"SubjectName"`                |             `"SubjectName":          "s",`    |        |
+|        `"StudyID"`                    |             `"StudyID":              "s",`    |        |
+|        `"ManufacturerName"`           |             `"ManufacturerName":     "s",`    |        |
+|        `"Model"`                      |             `"Model":                "s",`    |        |
+|         ...                           |              ...                              |        |
 |                                       |      `},`                                     |        |
 |     `data{}`                          |      `"data": [`                              |   *    |
 |                                       |         `{`                                   |        |
