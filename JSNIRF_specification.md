@@ -8,8 +8,8 @@ JSNIRF: A lightweight and portable fNIRS data storage format
 - **Abstract**:
 
 > JSNIRF is a portable format for storage, interchange and processing
-data generated from functional near-infrared spectroscopy data - an emerging
-neuroimaging technique. Built upon the JData and SNIRF specifications, 
+data generated from functional near-infrared spectroscopy, or fNIRS - an emerging
+functional neuroimaging technique. Built upon the JData and SNIRF specifications, 
 a JSNIRF file has both a text-based interface using the JavaScript 
 Object Notation (JSON) [RFC4627] format and a binary interface using 
 the Universal Binary JSON (UBJSON) serialization format. It contains 
@@ -17,7 +17,7 @@ a compatibility layer to provide a 1-to-1 mapping to the existing HDF5
 based SNIRF files. A JSNIRF file can be directly parsed by most existing 
 JSON and UBJSON parsers. Advanced features include optional hierarchical 
 data storage, grouping, compression, integration with heterogeneous
-scientific data enable by JData data serialization framework.
+scientific data enabled by JData data serialization framework.
 
 
 ## Table of Content
@@ -43,34 +43,36 @@ technique. It is capable of capturing brain activations via the measurement
 of hemodynamic responses using non-invasive low-power near-infrared light,
 thus, having the advantages of being safe, portable, versatile and low-cost.
 In comparison to functional MRI (fMIR), fNIRS not only provides rich functional
-information including hemodynamic response of both oxy- and deoxy-hemoglobin 
-concentrations, and is also capable of measuring absolute or variations of
+information including hemodynamic responses of both oxy- and deoxy-hemoglobin 
+concentrations, and is also capable of quantify absolute values or variations of
 tissue scattering and blood flow with superior temporal resolution. As a 
 result, a steady growth of fNIRS based neuroimaging studies and systems has 
 been observed over the past decade.
 
 An fNIRS system typically involves an optical unit providing light sources
 and detectors, a head-gear that couples the optical signals to the head surface,
-and additional peripherical devices such as optode (source or detector) 3-D
+and additional peripheral devices such as optode (source or detector) 3-D
 position tracking, body physiology (heart rate, SpO2 or respiration,
 blood pressure) monitoring, and the stimulus control. In some multi-modal
-based fNIRS studies, anatomical scans using MRI/CT or functional montoring
+based fNIRS studies, anatomical scans using MRI/CT or functional monitoring
 using fMRI, electroencephalography (EEG) or magnetoencephalography (MEG) 
 measurements may also need to be recorded.
 
 Most commercially available fNIRS systems use vendor-specific format 
-to store the measured data, making those difficult to be share among 
+to store the measured data, making the data difficult to be share among 
 the community. The recent development of the Shared Near Infrared File 
-Format Specification, or SNIRF format, specifically addresses this 
-challenge and aims to provide a unified interface and format to share 
-fNIRS measurements between systems across vendors.
+Format Specification, or [SNIRF format](https://github.com/fNIRS/snirf/), 
+specifically addresses this challenge and aims to provide a unified 
+interface and format to store and share fNIRS measurements between 
+systems across vendors.
 
-SNIRF specification uses HDF5 as the underlying file format to capture the 
+The [SNIRF specification](https://github.com/fNIRS/snirf/) uses 
+[HDF5](https://www.hdfgroup.org/solutions/hdf5/) as the underlying file format to capture the 
 essential data generated from various fNIRS devices or experiments.
 In this document, we aim to develop a light-weight, portable, simple
-interface to store SNIRF-compatible data, and suppements the HDF5 
+interface to store SNIRF-compatible data, and supplements the HDF5 
 based performance-oriented SNIRF files with additional features such 
-as human-readability, built-in data compression, data grouping and 
+as human-readability, extensible data annotation, data grouping and 
 easy integration with other neuroanatomical or functional measurements 
 that can be potentially stored using JData-based formats.
 
@@ -81,14 +83,14 @@ as the binary interface to gain smaller file sizes and faster processing speed. 
 provides the foundation for serializing complex hierarchical data using
 JSON/UBJSON constructs. This permits us to define language- and library-neutral
 fNIRS data representations using the simple and extensible constructs 
-from JSON and UBJSON syntax.
+using the JSON and UBJSON syntax.
 
 
 ### JSNIRF specification overview
 
 In this specification, we define data containers that are capable of storing 
 SNIRF-based fNIRS data structure, and allow one to convert SNIRF files to
-JSON and UBJSON based files for easy parsing and integration.
+JSON and UBJSON based files for easy sharing, parsing and integration.
 
 The purpose of this document is to
 
@@ -101,7 +103,7 @@ The purpose of this document is to
 In the following sections, we will clarify the basic JSNIRF grammar and define 
 JSNIRF data containers. The additional features and extension mechanisms are 
 also discussed and exemplified.
- 
+
 
 
 Grammar
@@ -124,11 +126,11 @@ storage format.
 
 For example, one can store a 1-D or 2-D array using the direct storage format as
 ```
- "jsnirf_keyword": [v1,v2,...,vn]
+ "jsnirf_keyword_1d": [v1,v2,...,vn]
 ```
 or
 ```
- "jsnirf_keyword": [
+ "jsnirf_keyword_2d": [
     [v11,v12,...,v1n],
     [v21,v22,...,v2n],
     ...
@@ -137,7 +139,7 @@ or
 ```
 or using the "annotated storage" format as
 ```
- "jsnirf_keyword": {
+ "jsnirf_keyword_nd": {
        "_ArrayType_": "typename",
        "_ArraySize_": [N1,N2,N3,...],
        "_ArrayData_": [v1,v2,v3,...]
@@ -261,7 +263,7 @@ A reversed direction mapping, i.e. from JSNIRF to SNIRF, is not guaranteed to be
 
 ### SNIRFData (mapped from SNIRF `/nirs{}`)
 
-The `SNIRFData` container is equivallent to the `/nirs{}` object in a SNIRF file. It is a JSON
+The `SNIRFData` container is equivalent to the `/nirs{}` object in a SNIRF file. It is a JSON
 array object with 1 or multiple elements - the first element maps to `/nirs` or `/nirs1`, the
 2nd element maps to `/nirs2`, and so on. When it contains only a single element, the `SNIRData`
 can be the value of the first element, without needing the array container.
@@ -274,10 +276,13 @@ of the `SNIRFData` container equals to the total sub-group count of the `/nirs{}
 
 ### measurementList (mapped from SNIRF `/nirs{}/data{}/measurementList{}`)
 
-In the SNIRF format, the `measurementList` is defined as an array of structures (AoS), where
+In the SNIRF format, the `measurementList` is defined as an 
+[array of structures (AoS)](https://github.com/fangq/jdata/blob/master/JData_specification.md#tables), where
 `measurementList1` defines the source/detector settings for the 1st column of `data{}`. In 
-JSNIRF, we define `measurementList` as a structure of arrays (SoA) where each sub-field is 
-a 1-D vector, with the length matching the total count of the SNIRF `measurementList` elements.
+JSNIRF, we define `measurementList` as a 
+[structure of arrays (SoA)](https://github.com/fangq/jdata/blob/master/JData_specification.md#tables) 
+where each sub-field is a 1-D vector, with the length matching the total count of 
+the SNIRF `measurementList` elements.
 
 
 Data Orgnization and Grouping
@@ -360,7 +365,7 @@ Summary
 In summary, this specification defines a 1-to-1 mapping between the HDF5-based SNIRF storage
 format to JSON/UBJSON based JSNIRF format. Any previously generated SNIRF file can be 100% 
 mapped to a JSNIRF document without losing any information. However, JSNIRF adds readability, 
-portability with lightweight and widely avaialble parsers readily available. It also allows 
+portability with lightweight and widely available parsers readily available. It also allows 
 one to easily combine NIRS measurements with other experimental data stored in JData-compliant 
 formats, such as JNIfTI or JMesh, especially in a multi-modal imaging study.
 
