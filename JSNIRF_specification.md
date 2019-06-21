@@ -301,7 +301,7 @@ optional unique name (within the current document) via `"NIRSGroup(unique name)"
 and `"NIRSObject(unique name)"`
 
 For example, the below JSNIRF snippet defines two data groups with each containing 
-multiple NIRS datasets.  Here we also show examples on storing multiple `NIRSData` 
+multiple NIRS datasets.  Here we also show examples on storing multiple `SNIRFData` 
 records under a common parent, as well as the use of `"_DataLink_"` defined
 in the JData specification for flexible data referencing.
 
