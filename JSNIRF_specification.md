@@ -224,9 +224,9 @@ using the bellow mapping table
 |     `aux{}`                           |      `"aux": [`                               |        |
 |                                       |         `{`                                   |        |
 |         `name`                        |          `"name":                    "s",`    |   +    |
-|         `dataTimeSeries`              |          `"dataTimeSeries":        [[...]],`  |   +    |
-|         `time`                        |          `"time":                   [...],`   |   +    |
-|         `timeOffset`                  |          `"timeOffset":             [...],`   |        |
+|         `dataTimeSeries`              |          `"dataTimeSeries":      [[<f>,...]],`|   +    |
+|         `time`                        |          `"time":                 [<f>,...],` |   +    |
+|         `timeOffset`                  |          `"timeOffset":           [<f>,...],` |        |
 |                                       |         `},`                                  |        |
 |                                       |         `{...}`                               |        |
 |                                       |      `]`                                      |        |
@@ -234,10 +234,9 @@ using the bellow mapping table
 |                                       |    `{...}`                                    |        |
 |                                       | `}`                                           |        |
 
-
 In the above table, the notations are explained below
 
-* `{}` represents an HDF5 group with one or multiple sub-groups (i.e. a group-array)
+* `{}` represents an HDF5 indexed-group which may contain one or multiple sub-groups
 * `<i>` represents an integer value (signed integer of 8, 16, 32 or 64bit)
 * `<f>` represents an numerical value (including integers, 32bit and 64bit floating point numbers)
 * `"s"` represents a UTF-8 encoded string of arbitrary length
