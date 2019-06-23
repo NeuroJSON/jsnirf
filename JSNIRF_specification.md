@@ -44,19 +44,19 @@ of hemodynamic responses using non-invasive low-power near-infrared light,
 thus, having the advantages of being safe, portable, versatile and low-cost.
 In comparison to functional MRI (fMIR), fNIRS not only provides rich functional
 information including hemodynamic responses of both oxy- and deoxy-hemoglobin 
-concentrations, and is also capable of quantify absolute values or variations of
+concentrations, but also is capable of quantifying absolute values or variations of
 tissue scattering and blood flow with superior temporal resolution. As a 
 result, a steady growth of fNIRS based neuroimaging studies and systems has 
 been observed over the past decade.
 
 An fNIRS system typically involves an optical unit providing light sources
 and detectors, a head-gear that couples the optical signals to the head surface,
-and additional peripheral devices such as optode (source or detector) 3-D
+and additional peripheral devices such as optode (optical source or detector) 3-D
 position tracking, body physiology (heart rate, SpO2 or respiration,
-blood pressure) monitoring, and the stimulus control. In some multi-modal
+blood pressure) monitoring, and stimulus control. In some multi-modal
 based fNIRS studies, anatomical scans using MRI/CT or functional monitoring
 using fMRI, electroencephalography (EEG) or magnetoencephalography (MEG) 
-measurements may also need to be recorded.
+may also need to be recorded.
 
 Most commercially available fNIRS systems use vendor-specific format 
 to store the measured data, making the data difficult to be share among 
@@ -74,7 +74,7 @@ interface to store SNIRF-compatible data, and supplements the HDF5
 based performance-oriented SNIRF files with additional features such 
 as human-readability, extensible data annotation, data grouping and 
 easy integration with other neuroanatomical or functional measurements 
-that can be potentially stored using JData-based formats.
+that can be potentially stored using [JData-based formats](https://github.com/fangq/jdata)
 
 Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](http://json.org) 
 (JSON) as the text-based storage format and [Universal Binary JSON (UBJSON)](http://ubjson.org) 
@@ -365,9 +365,10 @@ Summary
 In summary, this specification defines a 1-to-1 mapping between the HDF5-based SNIRF storage
 format to JSON/UBJSON based JSNIRF format. Any previously generated SNIRF file can be 100% 
 mapped to a JSNIRF document without losing any information. However, JSNIRF adds readability, 
-portability with lightweight and widely available parsers readily available. It also allows 
-one to easily combine NIRS measurements with other experimental data stored in JData-compliant 
-formats, such as JNIfTI or JMesh, especially in a multi-modal imaging study.
+portability with lightweight and widely available parsers. It also allows one to easily 
+combine NIRS measurements with other experimental data stored in JData-compliant 
+formats, such as [JNIfTI](https://github.com/fangq/jnifti) or [JMesh](https://github.com/fangq/jmesh), 
+especially in a multi-modal imaging study.
 
 Compared to HDF5, JSON and UBJSON is significantly simpler when encoding and decoding 
 unstructured data, such as the data structure defined in a SNIRF file. 
