@@ -29,11 +29,9 @@ if(nargin==0 || ~ischar(fname))
 end
 
 opt=varargin2struct(varargin{:});
-tic
 data=h5load(fname);
-toc;
 data=snirfdecode(data);
-toc
+
 outfile=jsonopt('FileName','',opt);
 if(~isempty(outfile))
     if(regexp(outfile,'\.[Bb][Nn][Ii][Rr][Ss]$'))
@@ -46,4 +44,3 @@ if(~isempty(outfile))
         error('only support .jnirs,.bnirs and .mat files');
     end
 end
-toc
