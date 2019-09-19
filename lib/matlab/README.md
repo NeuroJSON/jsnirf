@@ -3,7 +3,7 @@
 * Copyright (C) 2019  Qianqian Fang <q.fang at neu.edu>
 * License: GNU General Public License version 3 (GPL v3) or Apache License 2.0, see License*.txt
 * Version: 0.4 (code name: Amygdala - alpha)
-* URL: http://github.com/fangq/jsnirf/lib/matlab
+* URL: https://github.com/fangq/jsnirf/tree/master/lib/matlab
 
 ## Overview
 
@@ -38,7 +38,7 @@ The JSNIRF data structure is highly compatible with the SNIRF data structure.
 This toolbox provides utilities convert from one form to the other losslessly.
 
 There are only two minor differences:
-* A JSNIRF data container renames the SNIRF `/nirs` root object as `SNITFData`.
+* A JSNIRF data container renames the SNIRF `/nirs` root object as `SNIRFData`.
   If multiple measurement datasets are provided in the SNIRF data in the forms of
   `/nirs1`, `/nirs2` ..., or `/nirs/data1`. `/nirs/data2` ..., JSNIRF merges these
   data objects into struct/cell arrays, and removes the group indices from the 
