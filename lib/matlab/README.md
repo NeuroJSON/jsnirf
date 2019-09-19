@@ -155,3 +155,11 @@ Example:
   savejsnirf(data,'test.jnirs');
 ```
 
+## Contribute to JSNIRF
+
+Please submit your bug reports, feature requests and questions to the Github Issues page at
+
+https://github.com/fangq/jsnirf/issues
+
+Please feel free to fork our software, making changes, and submit your revision back
+to us via "Pull Requests". JSNIRF toolbox is open-source and we welcome your contributions!
