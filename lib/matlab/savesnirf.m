@@ -32,6 +32,10 @@ if(nargin<2 || ~ischar(outfile))
 end
 
 opt=varargin2struct(varargin{:});
+if(~isfield(opt,'root'))
+    opt.root=inputname(1);
+end
+
 if(isfield(data,'SNIRFData'))
     data.nirs=data.SNIRFData;
     data.formatVersion=data.SNIRFData.formatVersion;
@@ -41,7 +45,7 @@ end
 
 if(~isempty(outfile))
     if(~isempty(regexp(outfile,'\.[Hh]5$', 'once')) || ~isempty(regexp(outfile,'\.[Ss][Nn][Ii][Rr][Ff]$', 'once')))
-        saveh5(data,outfile);
+        saveh5(data,outfile,opt);
     elseif(~isempty(regexp(outfile,'\.[Jj][Nn][Ii][Rr][Ss]$', 'once'))|| ~isempty(regexp(outfile,'\.[Jj][Ss][Oo][Nn]$', 'once')))
         savejson('SNIRDData',data,'FileName',outfile,opt);
     elseif(regexp(outfile,'\.[Mm][Aa][Tt]$'))
