@@ -36,9 +36,18 @@ if(nargin==0 || ~ischar(fname))
     error('you must provide a file name');
 end
 
-opt=varargin2struct(varargin{:});
 data=loadh5(fname);
-data=snirfdecode(data,'snirf');
+
+opt=struct;
+
+if(length(varargin)==1)
+    data=snirfdecode(data,varargin{:});
+elseif(length(varargin)>=2)
+    opt=varargin2struct(varargin{:});
+    data=snirfdecode(data,varargin{:});
+else
+    data=snirfdecode(data);
+end
 
 outfile=jsonopt('FileName','',opt);
 if(~isempty(outfile))

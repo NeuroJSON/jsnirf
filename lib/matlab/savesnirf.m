@@ -20,7 +20,7 @@ function savesnirf(data, outfile,varargin)
 %
 %    example:
 %        data=loadsnirf('test.snirf');
-%        snirfdata(data,'newfile.snirf');
+%        savesnirf(data,'newfile.snirf');
 %
 %    this file is part of JSNIRF specification: https://github.com/fangq/jsnirf
 %
@@ -33,7 +33,7 @@ end
 
 opt=varargin2struct(varargin{:});
 if(~isfield(opt,'root'))
-    opt.root=inputname(1);
+    opt.root='';
 end
 
 if(isfield(data,'SNIRFData'))

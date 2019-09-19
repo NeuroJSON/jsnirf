@@ -44,7 +44,7 @@ if(~exist('savejson','file'))
 end
 
 if(~isempty(regexp(filename,'\.[Ss][Nn][Ii][Rr][Ff]$', 'once')) || ~isempty(regexp(filename,'\.[Hh]5$', 'once')))
-    jnirs=loadsnirf(filename);
+    jnirs=loadsnirf(filename,varargin);
 elseif(regexp(filename,'\.[Jj][Nn][Ii][Rr][Ss]$'))
     jnirs=loadjson(filename,varargin{:});
 elseif(regexp(filename,'\.[Bb][Nn][Ii][Rr][Ss]$'))
