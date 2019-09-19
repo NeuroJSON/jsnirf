@@ -2,7 +2,7 @@
 
 * Copyright (C) 2019  Qianqian Fang <q.fang at neu.edu>
 * License: GNU General Public License version 3 (GPL v3) or Apache License 2.0, see License*.txt
-* Version: 0.4
+* Version: 0.4 (code name: Amygdala - alpha)
 * URL: http://github.com/fangq/jsnirf/lib/matlab
 
 ## Overview
@@ -19,7 +19,7 @@ storage, grouping, compression, integration with heterogeneous scientific data
 enabled by JData data serialization framework.
 
 This toolbox also provides a fast/complete reader/writer for the HDF5-based SNIRF
-files (along with any HDF5 data) via the embedded EazyH5 toolbox 
+files (along with any HDF5 data) via the EazyH5 toolbox 
 (http://github.com/fangq/eazyh5). The toolbox can read/write SNIRF v1.0 data
 files specified by the SNIRF specification http://github.com/fNIRS/snirf .
 
@@ -77,7 +77,7 @@ is converted to the below JSON/JSNIRF data structure
 {
   "SNIRFData": [
       {
-          "formatVersion": '1',
+          "formatVersion": '1.0',
           "metaDataTags":{
 	      "SubjectID": ...
 	  },
@@ -92,7 +92,7 @@ is converted to the below JSON/JSNIRF data structure
 	  "probe": ...
       },
       {
-          "formatVersion": '1',
+          "formatVersion": '1.0',
           "metaDataTags":{
 	      "SubjectID": ...
 	  },

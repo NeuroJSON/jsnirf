@@ -68,9 +68,9 @@ if((nargin==1 && strcmpi(varargin{1},'snirf')) || ...
     if(isfield(nirsdata,'format'))
         nirsdata=rmfield(nirsdata,'format');
     end
-    jsn=struct('formatVersion','1','nirs', nirsdata);
+    jsn=struct('formatVersion','1.0','nirs', nirsdata);
 else
-    nirsdata.formatVersion='1';
+    nirsdata.formatVersion='1.0';
     len=length(fieldnames(nirsdata));
     nirsdata=orderfields(nirsdata,[len,1:len-1]);
     jsn=struct('SNIRFData', nirsdata);
