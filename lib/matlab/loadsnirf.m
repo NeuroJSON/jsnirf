@@ -29,8 +29,8 @@ if(nargin==0 || ~ischar(fname))
 end
 
 opt=varargin2struct(varargin{:});
-data=h5load(fname);
-data=snirfdecode(data);
+data=loadh5(fname);
+data=snirfdecode(data,'snirf');
 
 outfile=jsonopt('FileName','',opt);
 if(~isempty(outfile))

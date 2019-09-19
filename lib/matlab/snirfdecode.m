@@ -1,6 +1,9 @@
-function data=snirfdecode(root)
+function data=snirfdecode(root, varargin)
 %
 %    data=snirfdecode(root)
+%       or
+%    data=snirfdecode(root,type)
+%    data=snirfdecode(root,{'nameA','nameB',...})
 %
 %    Processing an HDF5 based SNIRF data and group indexed datasets into a
 %    cell array
@@ -8,55 +11,44 @@ function data=snirfdecode(root)
 %    author: Qianqian Fang (q.fang <at> neu.edu)
 %
 %    input:
-%        root: the input snirf data structure (loaded from loadsnirf.m)
+%        root: the raw input snirf data structure (loaded from loadh5.m)
+%        type: if type is set as a cell array of strings, it restrict the
+%              grouping only to the subset of field names in this list;
+%              if type is a string as 'snirf', it is the same as setting 
+%              type as {'aux','data','nirs','stim','measurementList'}.
 %
 %    output:
-%        data: a simplified matlab structure
+%        data: a reorganized matlab structure. Each SNIRF data chunk is
+%              enclosed inside a 'SNIRFData' subfield or cell array.
 %
 %    example:
-%        data=loadsnirf('test.snirf');
+%        rawdata=loadh5('mydata.snirf');
+%        data=snirfdecode(rawdata);
 %
 %    this file is part of JSNIRF specification: https://github.com/fangq/jsnirf
 %
 %    License: Apache 2.0, see https://github.com/fangq/jsnirf for details
 %
 
-data=struct;
-if(isstruct(root))
-    names=fieldnames(root);
-    newnames=struct();
+if(nargin<1)
+    help snirfdecode;
+    return;
+end
 
-    for i=1:length(names)
-        item=regexp(names{i},'^(\w+)(\d+)$','tokens');
-        if(~isempty(item) && str2num(item{1}{2})~=0)
-            if(~isfield(newnames,item{1}{1}))
-                newnames.(item{1}{1})=[str2num(item{1}{2})];
-            else
-                newnames.(item{1}{1})=[newnames.(item{1}{1}), str2num(item{1}{2})];
-            end
-        else
-            if(isstruct(root.(names{i})))
-                data.(names{i})=snirfdecode(root.(names{i}));
-            else
-                data.(names{i})=root.(names{i});
-            end
+data=regrouph5(root, varargin{:});
+
+if(isfield(data,'nirs') && isfield(data,'formatVersion') && ~isfield(data,'SNIRFData'))
+    data.SNIRFData=data.nirs;
+    if(iscell(data.nirs))
+        for i=1:length(data.nirs)
+            data.SNIRFData{i}.formatVersion=data.formatVersion;
+            len=length(fieldnames(data.SNIRFData{i}));
+            data.SNIRFData{i}=orderfields(data.SNIRFData{i},[len,1:len-1]);
         end
+    else
+        data.SNIRFData.formatVersion=data.formatVersion;
+        len=length(fieldnames(data.SNIRFData));
+        data.SNIRFData=orderfields(data.SNIRFData,[len,1:len-1]);
     end
-
-    names=fieldnames(newnames);
-
-    for i=1:length(names)
-        len=length(newnames.(names{i}));
-        data.(names{i})=cell(1,len);
-        for j=1:len
-            val=sort(newnames.(names{i}));
-            obj=root.(sprintf('%s%d',names{i},val(j)));
-            if(isstruct(obj))
-                data.(names{i}){j}=snirfdecode(obj);
-            else
-                data.(names{i}){j}=obj;
-            end
-        end
-        data.(names{i})=cell2mat(data.(names{i}));
-    end
+    data=rmfield(data,{'nirs','formatVersion'});
 end
