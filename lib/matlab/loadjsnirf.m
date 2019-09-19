@@ -15,7 +15,7 @@ function jnirs=loadjsnirf(filename, varargin)
 %        inputfile: the output file name to the JSNIRF or SNIRF file
 %                *.bnirs for binary JSNIRF file
 %                *.jnirs for text JSNIRF file
-%                *.snirf for SNITRF files
+%                *.snirf for HDF5/SNITRF files
 %        options: (optional) if loading from a .bnii file, please see the options for
 %               loadubjson.m (part of JSONLab); if loading from a .jnirs, please see the 
 %               supported options for loadjson.m (part of JSONLab).
@@ -32,7 +32,7 @@ function jnirs=loadjsnirf(filename, varargin)
 %
 %    this file is part of JSNIRF specification: https://github.com/fangq/jsnirf
 %
-%    License: Apache 2.0, see https://github.com/fangq/jsnirf for details
+%    License: GPLv3 or Apache 2.0, see https://github.com/fangq/jsnirf for details
 %
 
 if(nargin<1)

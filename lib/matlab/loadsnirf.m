@@ -16,12 +16,20 @@ function data=loadsnirf(fname,varargin)
 %    output:
 %        data: a MATLAB structure with the grouped data fields
 %
+%    dependency:
+%        - the loadh5/regrouph5 functions are provided by the eazyh5
+%          toolbox at http://github.com/fangq/eazyh5
+%        - the varargin2struct and jsonopt functions are provided by the JSONLab 
+%          toolbox at http://github.com/fangq/jsonlab 
+%        - if data compression is specified by 'compression','zlib' param/value 
+%          pairs, ZMat toolbox will be needed, http://github.com/fangq/zmat
+%
 %    example:
 %        data=loadsnirf('test.snirf');
 %
 %    this file is part of JSNIRF specification: https://github.com/fangq/jsnirf
 %
-%    License: Apache 2.0, see https://github.com/fangq/jsnirf for details
+%    License: GPLv3 or Apache 2.0, see https://github.com/fangq/jsnirf for details
 %
 
 if(nargin==0 || ~ischar(fname))
