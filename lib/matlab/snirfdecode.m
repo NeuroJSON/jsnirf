@@ -47,6 +47,9 @@ end
 
 if(issnirf==0 && isfield(data,'nirs') && isfield(data,'formatVersion') && ~isfield(data,'SNIRFData'))
     data.SNIRFData=data.nirs;
+    if(isfield(data.SNIRFData,'data') && isfield(data.SNIRFData.data,'measurementList'))
+        data.SNIRFData.data.measurementList=aos2soa(data.nirs.data.measurementList);
+    end
     if(iscell(data.nirs))
         for i=1:length(data.nirs)
             data.SNIRFData{i}.formatVersion=data.formatVersion;
