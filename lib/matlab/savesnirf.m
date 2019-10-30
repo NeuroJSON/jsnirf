@@ -33,7 +33,7 @@ end
 
 opt=varargin2struct(varargin{:});
 if(~isfield(opt,'root'))
-    opt.root='';
+    opt.rootname='';
 end
 
 if(isfield(data,'SNIRFData'))
