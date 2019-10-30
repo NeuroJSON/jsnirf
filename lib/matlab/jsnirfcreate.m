@@ -15,7 +15,7 @@ function jsn=jsnirfcreate(varargin)
 %        option (optional): option can be ignored. If it is a string with a
 %             value 'snirf', this creates a default SNIRF data structure;
 %             otherwise, a JSNIRF data structure is created.
-%        format: save as option.
+%        format: same as option.
 %        param/value:   a list of name/value pairs specify
 %             additional subfields to be stored under the /nirs object.
 %
@@ -33,7 +33,7 @@ function jsn=jsnirfcreate(varargin)
 % define empty SNIRF data structure with all required fields
 
 defaultmeta=struct('SubjectID','default','MeasurementDate',datestr(now,29),...
-                'MeasurementTime',datestr(now,'hh:mm:ss'),'LengthUnit','mm');
+                'MeasurementTime',datestr(now,'hh:mm:ss'),'LengthUnit','mm', 'TimeUnit','s');
 defaultsrcmap=struct('sourceIndex',[],'detectorIndex',[],...
               'wavelengthIndex',[],'dataType',1,'dataTypeIndex',1); 
 defaultdata=struct('dataTimeSeries',[],'time',[],'measurementList',defaultsrcmap);
