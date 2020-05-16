@@ -77,13 +77,16 @@ easy integration with other neuroanatomical or functional measurements
 that can be potentially stored using [JData-based formats](https://github.com/fangq/jdata)
 
 Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](http://json.org) 
-(JSON) as the text-based storage format and [Universal Binary JSON (UBJSON)](http://ubjson.org) 
+(JSON) as the text-based storage format and [Binary JData](https://github.com/fangq/bjdata)
+derived based on [Universal Binary JSON (UBJSON)](http://ubjson.org),
 as the binary interface to gain smaller file sizes and faster processing speed. The 
 [JData specification](https://github.com/fangq/jdata/blob/master/JData_specification.md)
 provides the foundation for serializing complex hierarchical data using
 JSON/UBJSON constructs. This permits us to define language- and library-neutral
 fNIRS data representations using the simple and extensible constructs 
-using the JSON and UBJSON syntax.
+using the JSON and UBJSON syntax. The use of JSON/UBJSON based JSNIRF data
+files also extends reading and writing SNIRF in environments where the HDF5 format
+is not supported, such as MATLAB older than R2011a and GNU Octave.
 
 
 ### JSNIRF specification overview
@@ -149,7 +152,8 @@ The direct storage format and the annotated storage format are equivalent. In th
 below sections, we use mostly the direct form to explain the data format, but
 one shall also be able to store the data using the annotated format. We also note that
 any valid JSON formatted data structure can be converted to a binary form using the
-rules defined in the [UBJSON specification (Draft 12)](http://ubjson.org).
+rules defined in the [Binary JData](https://github.com/fangq/bjdata) derived from
+the [UBJSON specification (Draft 12)](http://ubjson.org).
 
 
 JSNIRF Format
@@ -169,10 +173,12 @@ using the bellow mapping table
 |        `"SubjectID"`                  |             `"SubjectID":            "s",`    |   *    |
 |        `"MeasurementDate"`            |             `"MeasurementDate":      "s",`    |   *    |
 |        `"MeasurementTime"`            |             `"MeasurementTime":      "s",`    |   *    |
-|        `"SpatialUnit"`                |             `"SpatialUnit":          "s",`    |   *    |
+|        `"LengthUnit"`                 |             `"LengthUnit":           "s",`    |   *    |
+|        `"TimeUnit"`                   |             `"TimeUnit":             "s",`    |   *    |
+|        `"FrequencyUnit"`              |             `"FrequencyUnit":        "s",`    |   *    |
 |        `"SubjectName"`                |             `"SubjectName":          "s",`    |        |
 |        `"StudyID"`                    |             `"StudyID":              "s",`    |        |
-|        `"ManufacturerName"`           |             `"ManufacturerName":     "s",`    |        |
+|        `"ManufacturerName"`          |             `"ManufacturerName":     "s",`    |        |
 |        `"Model"`                      |             `"Model":                "s",`    |        |
 |         ...                           |              ...                              |        |
 |                                       |      `},`                                     |        |
@@ -204,9 +210,9 @@ using the bellow mapping table
 |     `probe`                           |      `"probe": {`                             |   *    |
 |         `wavelengths`                 |             `"wavelengths":       [<f>,...],` |   *    |
 |         `wavelengthsEmission`         |             `"wavelengthsEmission":[<f>,...],`|        |
-|         `sourcePos`                   |             `"sourcePos":        [[<f>,...]],`|   *    |
+|         `sourcePos2D`                 |             `"sourcePos2D":      [[<f>,...]],`|   *    |
 |         `sourcePos3D`                 |             `"sourcePos3D":      [[<f>,...]],`|        |
-|         `detectorPos`                 |             `"detectorPos":      [[<f>,...]],`|   *    |
+|         `detectorPos2D`               |             `"detectorPos2D":    [[<f>,...]],`|   *    |
 |         `detectorPos3D`               |             `"detectorPos3D":    [[<f>,...]],`|        |
 |         `frequencies`                 |             `"frequencies":       [<f>,...],` |        |
 |         `timeDelays`                  |             `"timeDelays":        [<f>,...],` |        |
@@ -216,7 +222,7 @@ using the bellow mapping table
 |         `correlationTimeDelayWidths`  |             `"correlationTimeDelayWidths":[<f>,...],`|        |
 |         `sourceLabels`                |             `"sourceLabels":      ["s",...],` |        |
 |         `detectorLabels`              |             `"detectorLabels":    ["s",...],` |        |
-|         `landmarkPos`                 |             `"landmarkPos":      [[<f>,...]],`|        |
+|         `landmarkPos2D`               |             `"landmarkPos2D":    [[<f>,...]],`|        |
 |         `landmarkPos3D`               |             `"landmarkPos3D":    [[<f>,...]],`|        |
 |         `landmarkLabels`              |             `"landmarkLabels":    ["s",...],` |        |
 |         `useLocalIndex`               |             `"useLocalIndex":        <i>`     |        |
