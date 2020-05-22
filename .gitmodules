@@ -4,3 +4,6 @@
 [submodule "lib/matlab"]
 	path = lib/matlab
 	url = https://github.com/fangq/jsnirfy
+[submodule "samples"]
+	path = samples
+	url = https://github.com/fNIRS/snirf-samples.git
