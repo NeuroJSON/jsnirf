@@ -1,23 +1,24 @@
-JSNIRF: A lightweight and portable fNIRS data storage format
+JSNIRF: A JSON/binary JSON extension to the SNIRF format
 ============================================================
 
-- **Status of this document**: This document is current under development.
 - **Copyright**: (C) 2019-2025 Qianqian Fang <q.fang at neu.edu>
 - **License**: Apache License, Version 2.0
-- **Version**: V1 (Draft-2)
+- **Version**: V1 (Draft-2.preview)
+- **URL**: https://neurojson.org/jsnirf/draft2
+- **Status**: Draft-2 is a work-in-progress
+- **Development**: https://github.com/NeuroJSON/jsnirf
 - **Abstract**:
 
-> JSNIRF is a portable format for storage, interchange and processing
-data generated from functional near-infrared spectroscopy, or fNIRS - an emerging
-functional neuroimaging technique. Built upon the JData and SNIRF specifications, 
-a JSNIRF file has both a text-based interface using the JavaScript 
-Object Notation (JSON) [RFC4627] format and a binary interface using 
-the Universal Binary JSON (UBJSON) serialization format. It contains 
-a compatibility layer to provide a 1-to-1 mapping to the existing HDF5 
-based SNIRF files. A JSNIRF file can be directly parsed by most existing 
-JSON and UBJSON parsers. Advanced features include optional hierarchical 
-data storage, grouping, compression, integration with heterogeneous
-scientific data enabled by JData data serialization framework.
+> This specification defines the JSNIRF standard format. The JSNIRF format
+allows one to store and extend the HDF5 based SNIRF format (.snirf) using
+JavaScript Object Notation (JSON) [RFC4627] and binary JSON serialization
+methods. It loss-lessly maps all SNIRF/HDF5 headers and data structures to
+a human-readable JSON-based wrapper. Use of JSON and JSNIRF formats to store
+SNIRF data makes it possible to rapidly index, exchange, and query large amount
+of SNIRF datasets and metadata using modern database engines where JSON is used
+as the underlying data exchange format. With the extension of JData annotations,
+JSNIRF also permits optional hierarchical data storage, image data grouping,
+various data compression codecs, filters, streaming and encryption.
 
 
 ## Table of Content
@@ -97,7 +98,7 @@ JSON and UBJSON based files for easy sharing, parsing and integration.
 
 The purpose of this document is to
 
-- define a 1-to-1 mapping between the existing SNRIF data structures
+- define a 1-to-1 mapping between the existing SNIRF data structures
   to a JSON/UBJSON-based flexible data structure to allow lossless conversion
   from HDF5 data to JSON/UBJSON data
 - demonstrate a set of flexible mechanisms to extend the capability of the 
@@ -182,8 +183,8 @@ using the bellow mapping table
 |        `"ManufacturerName"`           |             `"ManufacturerName":     "s",`    |        |
 |        `"Model"`                      |             `"Model":                "s",`    |        |
 |         ...                           |              ...                              |        |
-|                                       |       `},`                                    |        |
-|     `data{}`                          |       `"data": [`                             |   *    |
+|                                       |        `},`                                   |        |
+|     `data{}`                          |        `"data": [`                            |   *    |
 |                                       |           `{`                                 |        |
 |        `dataTimeSeries`               |            `"dataTimeSeries":    [[<f>,...]],`|   *    |
 |        `time`                         |            `"time":               [<f>,...],` |   *    |
@@ -203,16 +204,16 @@ using the bellow mapping table
 |                                       |            `}`                                |        |
 |                                       |           `},`                                |        |
 |                                       |           `{...}`                             |        |
-|                                       |       `],`                                    |        |
-|     `stim{}`                          |       `"stim": [`                             |        |
+|                                       |        `],`                                   |        |
+|     `stim{}`                          |        `"stim": [`                            |        |
 |                                       |           `{`                                 |        |
 |         `name`                        |             `"name":               "s",`      |   +    |
 |         `data`                        |             `"data":             [[<f>,...]],`|   +    |
 |         `dataLabels`                  |             `"dataLabels":       [["s",...]],`|   +    |
 |                                       |           `},`                                |        |
 |                                       |           `{...}`                             |        |
-|                                       |       `],`                                    |        |
-|     `probe`                           |       `"probe": {`                            |   *    |
+|                                       |        `],`                                   |        |
+|     `probe`                           |        `"probe": {`                           |   *    |
 |         `wavelengths`                 |             `"wavelengths":       [<f>,...],` |   *    |
 |         `wavelengthsEmission`         |             `"wavelengthsEmission":[<f>,...],`|        |
 |         `sourcePos2D`                 |             `"sourcePos2D":      [[<f>,...]],`|   *1   |
@@ -232,8 +233,8 @@ using the bellow mapping table
 |         `landmarkLabels`              |             `"landmarkLabels":    ["s",...],` |        |
 |         `coordinateSystem`            |             `"coordinateSystem":   "s",`      |        |
 |         `coordinateSystemDescription` |             `"coordinateSystemDescription":"s",`|        |
-|                                       |       `},`                                    |        |
-|     `aux{}`                           |       `"aux": [`                              |        |
+|                                       |        `},`                                   |        |
+|     `aux{}`                           |        `"aux": [`                             |        |
 |                                       |          `{`                                  |        |
 |         `name`                        |            `"name":                "s",`      |   +    |
 |         `dataTimeSeries`              |            `"dataTimeSeries":    [[<f>,...]],`|   +    |
@@ -242,7 +243,7 @@ using the bellow mapping table
 |         `timeOffset`                  |            `"timeOffset":         [<f>,...],` |        |
 |                                       |          `},`                                 |        |
 |                                       |          `{...}`                              |        |
-|                                       |       `]`                                     |        |
+|                                       |        `]`                                    |        |
 |                                       |     `} `                                      |        |
 |                                       |   `}`,                                        |        |
 |                                       |   `{...}`                                     |        |
@@ -271,9 +272,9 @@ length or longer to store the entire original string value.
 The requirements for the dimensions of the 1-D and 2-D array subfields are specified
 in the SNIRF specification.
 
-The order of the subfields in each element of the `SNIRFData` object is not required. However, 
+The order of the subfields in each element of the `SNIRFData` object is storage dependent. However, 
 it is generally recommended that the `formatVersion` and `metaDataTags` appear before
-other subfields.
+other subfields of the same level when the data are serialized.
 
 A reversed direction mapping, i.e. from JSNIRF to SNIRF, is not guaranteed to be lossless.
 
@@ -306,7 +307,7 @@ Starting in SNIRF format v1.2, a new container, `measurementLists`, is introduce
 the less disk-efficient `measurementList` container. Instead of storing array of structures (AoS),
 `measurementLists` stores structure of arrays (SoA), greatly reducing the storage overhead.
 
-Because JSNIRF's `measurementList` container is already required to use the array of structures (AoS)
+Because the `measurementList` container in JSNIRF is already required to use the array of structures (AoS)
 by default, the `measurementLists` is simply an alias to `measurementList` in JSNIRF. One and 
 only one of the two containers should present in a single `SNIRFData` element.
 
