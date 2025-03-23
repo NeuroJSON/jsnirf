@@ -2,9 +2,9 @@ JSNIRF: A lightweight and portable fNIRS data storage format
 ============================================================
 
 - **Status of this document**: This document is current under development.
-- **Copyright**: (C) Qianqian Fang (2019) <q.fang at neu.edu>
+- **Copyright**: (C) 2019-2025 Qianqian Fang <q.fang at neu.edu>
 - **License**: Apache License, Version 2.0
-- **Version**: 0.4
+- **Version**: V1 (Draft-2)
 - **Abstract**:
 
 > JSNIRF is a portable format for storage, interchange and processing
@@ -27,7 +27,7 @@ scientific data enabled by JData data serialization framework.
   * [JSNIRF specification overview](#jsnirf-specification-overview)
 - [Grammar](#grammar)
 - [JSNIRF Format](#jsnirf-format)
-- [Data Orgnization and Grouping](#data-orgnization-and-grouping)
+- [Data Organization and Grouping](#data-organization-and-grouping)
 - [Recommended File Specifiers](#recommended-file-specifiers)
 - [Summary](#summary)
 
@@ -74,13 +74,13 @@ interface to store SNIRF-compatible data, and supplements the HDF5
 based performance-oriented SNIRF files with additional features such 
 as human-readability, extensible data annotation, data grouping and 
 easy integration with other neuroanatomical or functional measurements 
-that can be potentially stored using [JData-based formats](https://github.com/fangq/jdata)
+that can be potentially stored using [JData-based formats](https://github.com/NeuroJSON/jdata)
 
-Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](http://json.org) 
-(JSON) as the text-based storage format and [Binary JData](https://github.com/fangq/bjdata)
-derived based on [Universal Binary JSON (UBJSON)](http://ubjson.org),
+Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](https://json.org) 
+(JSON) as the text-based storage format and [Binary JData](https://github.com/NeuroJSON/bjdata)
+derived based on [Universal Binary JSON (UBJSON)](https://ubjson.org),
 as the binary interface to gain smaller file sizes and faster processing speed. The 
-[JData specification](https://github.com/fangq/jdata/blob/master/JData_specification.md)
+[JData specification](https://github.com/NeuroJSON/jdata/blob/master/JData_specification.md)
 provides the foundation for serializing complex hierarchical data using
 JSON/UBJSON constructs. This permits us to define language- and library-neutral
 fNIRS data representations using the simple and extensible constructs 
@@ -152,8 +152,8 @@ The direct storage format and the annotated storage format are equivalent. In th
 below sections, we use mostly the direct form to explain the data format, but
 one shall also be able to store the data using the annotated format. We also note that
 any valid JSON formatted data structure can be converted to a binary form using the
-rules defined in the [Binary JData](https://github.com/fangq/bjdata) derived from
-the [UBJSON specification (Draft 12)](http://ubjson.org).
+rules defined in the [Binary JData](https://github.com/NeuroJSON/bjdata) derived from
+the [UBJSON specification (Draft 12)](https://ubjson.org).
 
 
 JSNIRF Format
@@ -167,9 +167,10 @@ using the bellow mapping table
 |          SNIRF Data Container         |     JSNIRF Data Container (in JSON format)    |Required|
 |---------------------------------------|-----------------------------------------------|--------|
 | `/nirs{}`                             | `"SNIRFData" : [`                             |        |
-|                                       |    `{`                                        |        |
-|  `formatVersion`                      |      `"formatVersion": "s",`                  |   *    |
-|     `metaDataTags`                    |      `"metaDataTags": {`                      |   *    |
+|                                       |   `{`                                         |        |
+|  `formatVersion`                      |     `"formatVersion": "s",`                   |   *    |
+|                                       |     `"nirs": {`                               |   *    |
+|     `metaDataTags`                    |        `"metaDataTags": {`                    |   *    |
 |        `"SubjectID"`                  |             `"SubjectID":            "s",`    |   *    |
 |        `"MeasurementDate"`            |             `"MeasurementDate":      "s",`    |   *    |
 |        `"MeasurementTime"`            |             `"MeasurementTime":      "s",`    |   *    |
@@ -178,42 +179,46 @@ using the bellow mapping table
 |        `"FrequencyUnit"`              |             `"FrequencyUnit":        "s",`    |   *    |
 |        `"SubjectName"`                |             `"SubjectName":          "s",`    |        |
 |        `"StudyID"`                    |             `"StudyID":              "s",`    |        |
-|        `"ManufacturerName"`          |             `"ManufacturerName":     "s",`    |        |
+|        `"ManufacturerName"`           |             `"ManufacturerName":     "s",`    |        |
 |        `"Model"`                      |             `"Model":                "s",`    |        |
 |         ...                           |              ...                              |        |
-|                                       |      `},`                                     |        |
-|     `data{}`                          |      `"data": [`                              |   *    |
-|                                       |         `{`                                   |        |
+|                                       |       `},`                                    |        |
+|     `data{}`                          |       `"data": [`                             |   *    |
+|                                       |           `{`                                 |        |
 |        `dataTimeSeries`               |            `"dataTimeSeries":    [[<f>,...]],`|   *    |
 |        `time`                         |            `"time":               [<f>,...],` |   *    |
-|        `measurementList{}`            |            `"measurementList": {`             |   *    |
+|        `measurementLists{.}`          |            `"measurementLists": {.}`          |   *^1  |
+|        `measurementList{}`            |            `"measurementList": {`             |   *^1  |
 |            `sourceIndex`              |                `"sourceIndex":    [<i>,...],` |   *    |
 |            `detectorIndex`            |                `"detectorIndex":  [<i>,...],` |   *    |
 |            `wavelengthIndex`          |                `"wavelengthIndex":[<i>,...],` |   *    |
+|            `wavelengthActual`         |                `"wavelengthActual":[<f>,...],`|        |
+|            `wavelengthEmissionActual` |                `"wavelengthEmissionActual":[<f>,...],` |        |
 |            `dataType`                 |                `"dataType":       [<i>,...],` |   *    |
+|            `dataUnit`                 |                `"dataUnit":       ["s",...],` |        |
 |            `dataTypeLabel`            |                `"dataTypeLabel":  ["s",...],` |        |
 |            `dataTypeIndex`            |                `"dataTypeIndex":  [<i>,...],` |   *    |
 |            `sourcePower`              |                `"sourcePower":    [<f>,...],` |        |
 |            `detectorGain`             |                `"detectorGain":   [<f>,...],` |        |
-|            `moduleIndex`              |                `"moduleIndex":    [<i>,...],` |        |
 |                                       |            `}`                                |        |
-|                                       |         `},`                                  |        |
-|                                       |         `{...}`                               |        |
-|                                       |      `],`                                     |        |
-|     `stim{}`                          |      `"stim": [`                              |        |
-|                                       |         `{`                                   |        |
-|         `name`                        |             `"name":                 "s",`    |   +    |
+|                                       |           `},`                                |        |
+|                                       |           `{...}`                             |        |
+|                                       |       `],`                                    |        |
+|     `stim{}`                          |       `"stim": [`                             |        |
+|                                       |           `{`                                 |        |
+|         `name`                        |             `"name":               "s",`      |   +    |
 |         `data`                        |             `"data":             [[<f>,...]],`|   +    |
-|                                       |         `},`                                  |        |
-|                                       |         `{...}`                               |        |
-|                                       |      `],`                                     |        |
-|     `probe`                           |      `"probe": {`                             |   *    |
+|         `dataLabels`                  |             `"dataLabels":       [["s",...]],`|   +    |
+|                                       |           `},`                                |        |
+|                                       |           `{...}`                             |        |
+|                                       |       `],`                                    |        |
+|     `probe`                           |       `"probe": {`                            |   *    |
 |         `wavelengths`                 |             `"wavelengths":       [<f>,...],` |   *    |
 |         `wavelengthsEmission`         |             `"wavelengthsEmission":[<f>,...],`|        |
-|         `sourcePos2D`                 |             `"sourcePos2D":      [[<f>,...]],`|   *    |
-|         `sourcePos3D`                 |             `"sourcePos3D":      [[<f>,...]],`|        |
-|         `detectorPos2D`               |             `"detectorPos2D":    [[<f>,...]],`|   *    |
-|         `detectorPos3D`               |             `"detectorPos3D":    [[<f>,...]],`|        |
+|         `sourcePos2D`                 |             `"sourcePos2D":      [[<f>,...]],`|   *1   |
+|         `sourcePos3D`                 |             `"sourcePos3D":      [[<f>,...]],`|   *1   |
+|         `detectorPos2D`               |             `"detectorPos2D":    [[<f>,...]],`|   *2   |
+|         `detectorPos3D`               |             `"detectorPos3D":    [[<f>,...]],`|   *2   |
 |         `frequencies`                 |             `"frequencies":       [<f>,...],` |        |
 |         `timeDelays`                  |             `"timeDelays":        [<f>,...],` |        |
 |         `timeDelayWidths`             |             `"timeDelayWidths":   [<f>,...],` |        |
@@ -225,20 +230,23 @@ using the bellow mapping table
 |         `landmarkPos2D`               |             `"landmarkPos2D":    [[<f>,...]],`|        |
 |         `landmarkPos3D`               |             `"landmarkPos3D":    [[<f>,...]],`|        |
 |         `landmarkLabels`              |             `"landmarkLabels":    ["s",...],` |        |
-|         `useLocalIndex`               |             `"useLocalIndex":        <i>`     |        |
-|                                       |      `},`                                     |        |
-|     `aux{}`                           |      `"aux": [`                               |        |
-|                                       |         `{`                                   |        |
-|         `name`                        |          `"name":                    "s",`    |   +    |
-|         `dataTimeSeries`              |          `"dataTimeSeries":      [[<f>,...]],`|   +    |
-|         `time`                        |          `"time":                 [<f>,...],` |   +    |
-|         `timeOffset`                  |          `"timeOffset":           [<f>,...],` |        |
-|                                       |         `},`                                  |        |
-|                                       |         `{...}`                               |        |
-|                                       |      `]`                                      |        |
-|                                       |    `},`                                       |        |
-|                                       |    `{...}`                                    |        |
-|                                       | `}`                                           |        |
+|         `coordinateSystem`            |             `"coordinateSystem":   "s",`      |        |
+|         `coordinateSystemDescription` |             `"coordinateSystemDescription":"s",`|        |
+|                                       |       `},`                                    |        |
+|     `aux{}`                           |       `"aux": [`                              |        |
+|                                       |          `{`                                  |        |
+|         `name`                        |            `"name":                "s",`      |   +    |
+|         `dataTimeSeries`              |            `"dataTimeSeries":    [[<f>,...]],`|   +    |
+|         `dataUnit`                    |            `"dataUnit":            "s",`      |        |
+|         `time`                        |            `"time":               [<f>,...],` |   +    |
+|         `timeOffset`                  |            `"timeOffset":         [<f>,...],` |        |
+|                                       |          `},`                                 |        |
+|                                       |          `{...}`                              |        |
+|                                       |       `]`                                     |        |
+|                                       |     `} `                                      |        |
+|                                       |   `}`,                                        |        |
+|                                       |   `{...}`                                     |        |
+|                                       | `]`                                           |        |
 
 In the above table, the notations are explained below
 
@@ -252,6 +260,8 @@ In the above table, the notations are explained below
 * `...` (optional) additional elements similar to the previous element
 * `*` in the last column indicates a required subfield
 * `+` in the last column indicates a required subfield if the optional parent object is included
+* `^n` in the last column indicates that exactly one of the subfields in the subgroup identified by `n` is required, and no more than one should be present.
+* `*n` in the last column indicates that at least one of the subfields in the subgroup identified by `n` is required
 
 To convert a SNIRF file to the JSNIRF structure, the storage type in the
 target subfields must have equal or larger byte length to store the original SNIRF 
@@ -283,15 +293,25 @@ of the `SNIRFData` container equals to the total sub-group count of the `/nirs{}
 ### measurementList (mapped from SNIRF `/nirs{}/data{}/measurementList{}`)
 
 In the SNIRF format, the `measurementList` is defined as an 
-[array of structures (AoS)](https://github.com/fangq/jdata/blob/master/JData_specification.md#tables), where
+[array of structures (AoS)](https://github.com/NeuroJSON/jdata/blob/master/JData_specification.md#tables), where
 `measurementList1` defines the source/detector settings for the 1st column of `data{}`. In 
 JSNIRF, we define `measurementList` as a 
-[structure of arrays (SoA)](https://github.com/fangq/jdata/blob/master/JData_specification.md#tables) 
+[structure of arrays (SoA)](https://github.com/NeuroJSON/jdata/blob/master/JData_specification.md#tables) 
 where each sub-field is a 1-D vector, with the length matching the total count of 
 the SNIRF `measurementList` elements.
 
+### measurementLists (mapped from SNIRF `/nirs{}/data{}/measurementLists{}`)
 
-Data Orgnization and Grouping
+Starting in SNIRF format v1.2, a new container, `measurementLists`, is introduced as an alternative to 
+the less disk-efficient `measurementList` container. Instead of storing array of structures (AoS),
+`measurementLists` stores structure of arrays (SoA), greatly reducing the storage overhead.
+
+Because JSNIRF's `measurementList` container is already required to use the array of structures (AoS)
+by default, the `measurementLists` is simply an alias to `measurementList` in JSNIRF. One and 
+only one of the two containers should present in a single `SNIRFData` element.
+
+
+Data Organization and Grouping
 ------------------------
 
 To facilitate the organization of multiple neuroimaging datasets, JSNIRF supports **optional**
@@ -313,24 +333,24 @@ in the JData specification for flexible data referencing.
 ```
 {
     "NIRSGroup(studyname1)": {
-           "SNIRFData(subj1)": {
+           "SNIRFData(sub-001)": {
               ...
            },
-           "SNIRFData(subj2)": {
+           "SNIRFData(sub-002)": {
               ...
            },
-           "NIRSObject(subj3)": {
-               "SNIRFData(subj3_visit1)":[ ... ],
-               "SNIRFData(subj3_visit2)":[ ... ]
+           "NIRSObject(sub-003)": {
+               "SNIRFData(sub-003_sess1)":[ ... ],
+               "SNIRFData(sub-003_sess2)":[ ... ]
            }
     },
     "NIRSGroup(studyname2)": {
-           "subj1": {
+           "sub-001": {
                "NIRSObject": {
                    "SNIRFData":[ ... ]
                }
            },
-           "subj2": {
+           "sub-002": {
                "NIRSObject": {
                    "_DataInfo_": {
                        "Operator": "Ted",
@@ -345,7 +365,7 @@ in the JData specification for flexible data referencing.
                     NIFTIData: { ... }
                }
            },
-           "subj3": {
+           "sub-003": {
                "NIRSObject": {
                    "_DataLink_": "file:///space/test/jsnirf/study2subj3.bnirs"
                }
@@ -373,7 +393,7 @@ format to JSON/UBJSON based JSNIRF format. Any previously generated SNIRF file c
 mapped to a JSNIRF document without losing any information. However, JSNIRF adds readability, 
 portability with lightweight and widely available parsers. It also allows one to easily 
 combine NIRS measurements with other experimental data stored in JData-compliant 
-formats, such as [JNIfTI](https://github.com/fangq/jnifti) or [JMesh](https://github.com/fangq/jmesh), 
+formats, such as [JNIfTI](https://github.com/NeuroJSON/jnifti) or [JMesh](https://github.com/NeuroJSON/jmesh), 
 especially in a multi-modal imaging study.
 
 Compared to HDF5, JSON and UBJSON is significantly simpler when encoding and decoding 
