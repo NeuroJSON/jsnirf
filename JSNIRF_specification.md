@@ -1,19 +1,19 @@
-JSNIRF: A JSON/binary JSON extension to the SNIRF format
+JSNIRF: A Lightweight JSON/Binary JSON Extension to the SNIRF Format
 ============================================================
 
 - **Copyright**: (C) 2019-2025 Qianqian Fang <q.fang at neu.edu>
 - **License**: Apache License, Version 2.0
-- **Version**: V1 (Draft-2.preview)
+- **Version**: V1 (Draft-2)
 - **URL**: https://neurojson.org/jsnirf/draft2
-- **Status**: Draft-2 is a work-in-progress
+- **Status**: Frozen on March 23, 2025. For future updates, please see the Development URL below
 - **Development**: https://github.com/NeuroJSON/jsnirf
 - **Abstract**:
 
 > This specification defines the JSNIRF standard format. The JSNIRF format
 allows one to store and extend the HDF5 based SNIRF format (.snirf) using
 JavaScript Object Notation (JSON) [RFC4627] and binary JSON serialization
-methods. It loss-lessly maps all SNIRF/HDF5 headers and data structures to
-a human-readable JSON-based wrapper. Use of JSON and JSNIRF formats to store
+methods. It losslessly maps all SNIRF metadata and data structures to a
+lighweight human-readable JSON-based wrapper. Use of JSON and JSNIRF formats to store
 SNIRF data makes it possible to rapidly index, exchange, and query large amount
 of SNIRF datasets and metadata using modern database engines where JSON is used
 as the underlying data exchange format. With the extension of JData annotations,
@@ -78,14 +78,14 @@ easy integration with other neuroanatomical or functional measurements
 that can be potentially stored using [JData-based formats](https://github.com/NeuroJSON/jdata)
 
 Instead of using HDF5, JSNIRF utilizes [JavaScript Object Notation](https://json.org) 
-(JSON) as the text-based storage format and [Binary JData](https://github.com/NeuroJSON/bjdata)
+(JSON) as the text-based storage format and [Binary JData, or BJData](https://github.com/NeuroJSON/bjdata)
 derived based on [Universal Binary JSON (UBJSON)](https://ubjson.org),
 as the binary interface to gain smaller file sizes and faster processing speed. The 
 [JData specification](https://github.com/NeuroJSON/jdata/blob/master/JData_specification.md)
 provides the foundation for serializing complex hierarchical data using
-JSON/UBJSON constructs. This permits us to define language- and library-neutral
+JSON/BJData constructs. This permits us to define language- and library-neutral
 fNIRS data representations using the simple and extensible constructs 
-using the JSON and UBJSON syntax. The use of JSON/UBJSON based JSNIRF data
+using the JSON and BJData syntax. The use of JSON/BJData based JSNIRF data
 files also extends reading and writing SNIRF in environments where the HDF5 format
 is not supported, such as MATLAB older than R2011a and GNU Octave.
 
@@ -94,13 +94,13 @@ is not supported, such as MATLAB older than R2011a and GNU Octave.
 
 In this specification, we define data containers that are capable of storing 
 SNIRF-based fNIRS data structure, and allow one to convert SNIRF files to
-JSON and UBJSON based files for easy sharing, parsing and integration.
+JSON and BJData based files for easy sharing, parsing and integration.
 
 The purpose of this document is to
 
 - define a 1-to-1 mapping between the existing SNIRF data structures
-  to a JSON/UBJSON-based flexible data structure to allow lossless conversion
-  from HDF5 data to JSON/UBJSON data
+  to a JSON/BJData-based flexible data structure to allow lossless conversion
+  from HDF5 data to JSON/BJData data
 - demonstrate a set of flexible mechanisms to extend the capability of the 
   format to accommodate additional physiological, anatomical and multi-modal data
 
@@ -115,11 +115,11 @@ Grammar
 
 All JSNIRF files are JData specification compliant. The same as JData, it has
 both a text format based on JSON serialization and a binary format based on 
-the UBJSON serialization scheme. The two forms can be converted from one
+the BJData serialization scheme. The two forms can be converted from one
 to another.
 
 Briefly, the text-based JSNIRF is a valid JSON file with the extension to 
-support concatenated JSON objects; the binary-format JSNIRF is a valid UBJSON 
+support concatenated JSON objects; the binary-format JSNIRF is a valid BJData 
 file with the extended syntax to support N-D array. Please refer to the JData 
 specification for the definitions.
 
@@ -390,16 +390,16 @@ Summary
 ----------
 
 In summary, this specification defines a 1-to-1 mapping between the HDF5-based SNIRF storage
-format to JSON/UBJSON based JSNIRF format. Any previously generated SNIRF file can be 100% 
-mapped to a JSNIRF document without losing any information. However, JSNIRF adds readability, 
+format to JSON/BJData based JSNIRF format. Any previously generated SNIRF file can be 100% 
+mapped to a JSNIRF document without losing information. However, JSNIRF adds readability, 
 portability with lightweight and widely available parsers. It also allows one to easily 
 combine NIRS measurements with other experimental data stored in JData-compliant 
 formats, such as [JNIfTI](https://github.com/NeuroJSON/jnifti) or [JMesh](https://github.com/NeuroJSON/jmesh), 
 especially in a multi-modal imaging study.
 
-Compared to HDF5, JSON and UBJSON is significantly simpler when encoding and decoding 
+Compared to HDF5, JSON and BJData are significantly simpler when encoding and decoding 
 unstructured data, such as the data structure defined in a SNIRF file. 
-The broad availability of JSON and UBJSON parsers, along with the simple underlying syntax, allows one
+The broad availability of JSON and BJData parsers, along with the simple underlying syntax, allows one
 to easily share, parse and process such data files without imposing extensive programming
 overhead. The flexible data organization and referencing mechanisms offered by the underlying 
 JData specification make it possible to record and share large scale complex neuroimaging 

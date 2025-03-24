@@ -1,0 +1,51 @@
+= Change Log =
+
+Major updates are marked with a "*"
+
+== JSNIRF Spec Draft-2, FangQ <q.fang (a) neu.edu> ==
+
+ 2025-03-23 [1c24550] [ci] fix spellchecking
+ 2025-03-23 [9d01cd1] [spec] update spec abstract, update wordlist
+ 2025-03-23 [7846561] [ci] add spellchecker
+ 2025-03-23*[5074dc3] [bug] add the missing SNIRFData.nirs object, sync SNIRF 1.2
+ 2025-03-23 [b3a0bdf] [lib] update submodule github URLs
+
+== JSNIRF Spec Draft-1, FangQ <q.fang (a) neu.edu> ==
+
+ 2022-03-15 [4eb46e0] update jsnirfy toolbox
+ 2022-02-22 [3430920] Update README.md
+ 2020-05-22 [e906c1f] add sample data, update jsnirfy
+ 2020-05-16 [6e745cf] Update to map the latest SNIRF data fileds
+ 2020-05-04 [ba60b53] Add project banner to README
+ 2019-11-05 [9d9a215] update jsnirf toolbox readme
+ 2019-11-05 [c23ea18] add jsnirfy as matlab parser
+ 2019-11-05 [e2bf825] separate jsnirf toolbox into a separate repo
+ 2019-10-30 [51cc620] add missing TimeUnit
+ 2019-10-30 [e52d47a] use correct MeasurentTime MeasurementDate default value
+ 2019-10-30 [5e30e0f] use the latest option of easyh5
+ 2019-10-01 [10fc8d3] update easyh5 module
+ 2019-10-01 [4b780f6] readd easyh5 submodule
+ 2019-10-01 [1da7860] update easyh5 url
+ 2019-09-28 [2be2603] collapse measurementList according to JSNIRF spec
+ 2019-09-19 [876547c] fix typos
+ 2019-09-19 [808d45e] add Changelog
+ 2019-09-19 [61def95] adding issues link
+ 2019-09-19 [8136520] use brain parts as code names, set default version to 1.0
+ 2019-09-19 [b4d357c] polishing snirf toolbox, handling root object names
+ 2019-09-19 [53966d4] pass variable name from savesnirf to saveh5
+ 2019-09-19 [4744840] jsnirf toolbox v0.4
+ 2019-09-19 [a9ffd3b] initial version of jsnirf toolbox
+ 2019-09-17 [1e93c02] remove tic toc for speed test
+ 2019-09-17 [3559dcb] a compact SNIRF MATLAB parser and converter to JSNIRF JSON file
+ 2019-06-23 [af57f8c] Minor language updates
+ 2019-06-21 [53663d0] Use the name "indexed group"
+ 2019-06-20 [33b3cf1] Correct minor typo
+ 2019-06-18 [55349ab] Add ... for metadatatags
+ 2019-06-18 [d7908c7] More language updates
+ 2019-06-17 [3f299de] Correct the position of formatVersion
+ 2019-06-17 [a354d90] Reformat the mapping table
+ 2019-06-17 [621db3b] Update mapping table, complete the summary section, add more mapping instructions
+ 2019-06-16 [3ebbb83] Fix typo in abstract, add link to SNIRF spec
+ 2019-06-14 [b115b86] Use unicode U+2000 to format space inside table
+ 2019-06-14 [8d34bcc] Update toc
+ 2019-06-14 [a741ce7] initial version

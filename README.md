@@ -14,7 +14,7 @@ for convenient editing and version control.
 
 The JSNIRF format is built upon the [JData specification](https://github.com/NeuroJSON/jdata/) - 
 a generalized framework to serialize and convert complex scientific data. 
-The JSNIRF specification is compatible with [JData specification Draft 1](https://github.com/NeuroJSON/jdata/commit/f8fc8f1b814e7a4654b7b0092de15eaafa94d3da).
+The JSNIRF specification is compatible with [JData specification Draft 3](https://neurojson.org/jdata/draft3).
 
 ## How to participate
 
@@ -27,7 +27,7 @@ draft of this file specification, including
     question, report a bug, provide a feature request, or simply propose
     general discussions. Please use URLs or keywords to link your discussion 
     to a specific line/section/topic in the document.
-- [Write short comments on Request for Comments (RFC) commits](https://github.com/NeuroJSON/jsnirf/)
+- [Write short comments on Request for Comments (RFC) commits](https://github.com/NeuroJSON/jsnirf/releases/tag/Draft-2)
   - A milestone version of the specification will be associated with an
     RFC (Request for comments) commit (where the entire file is removed
     and re-added so that every line appears in such comment). One can
