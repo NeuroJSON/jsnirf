@@ -1,0 +1,713 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JSNIRF JSON Schema",
+  "description": "JSON schema for JSNIRF (JSON SNIRF) format - a lightweight JSON/binary JSON extension to the SNIRF format",
+  "type": "object",
+  "properties": {
+    "SNIRFData": {
+      "$ref": "#/definitions/SNIRFDataDef"
+    },
+    "NIRSGroup": {
+      "$ref": "#/definitions/NIRSGroupDef"
+    },
+    "NIRSObject": {
+      "$ref": "#/definitions/NIRSObjectDef"
+    }
+  },
+  "patternProperties": {
+    "^SNIRFData\\(.+\\)$": {
+      "$ref": "#/definitions/SNIRFDataDef"
+    },
+    "^NIRSGroup\\(.+\\)$": {
+      "$ref": "#/definitions/NIRSGroupDef"
+    },
+    "^NIRSObject\\(.+\\)$": {
+      "$ref": "#/definitions/NIRSObjectDef"
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "SNIRFDataDef": {
+      "title": "SNIRFData",
+      "description": "Main container for SNIRF data, equivalent to /nirs{} in HDF5 SNIRF",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NIRSDatasetDef"
+          },
+          "minItems": 1
+        },
+        {
+          "$ref": "#/definitions/NIRSDatasetDef"
+        }
+      ]
+    },
+    "NIRSDatasetDef": {
+      "type": "object",
+      "description": "Individual NIRS dataset element",
+      "properties": {
+        "formatVersion": {
+          "type": "string",
+          "description": "SNIRF format version"
+        },
+        "nirs": {
+          "type": "object",
+          "description": "NIRS data container",
+          "properties": {
+            "metaDataTags": {
+              "$ref": "#/definitions/MetaDataTagsDef"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DataDef"
+              },
+              "minItems": 1,
+              "description": "Data measurement containers"
+            },
+            "stim": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StimDef"
+              },
+              "description": "Stimulus/event data"
+            },
+            "probe": {
+              "$ref": "#/definitions/ProbeDef"
+            },
+            "aux": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AuxDef"
+              },
+              "description": "Auxiliary data channels"
+            }
+          },
+          "required": ["metaDataTags", "data", "probe"],
+          "additionalProperties": true
+        }
+      },
+      "required": ["formatVersion", "nirs"],
+      "additionalProperties": true
+    },
+    "MetaDataTagsDef": {
+      "type": "object",
+      "title": "MetaDataTags",
+      "description": "Required metadata for SNIRF dataset",
+      "properties": {
+        "SubjectID": {
+          "type": "string",
+          "description": "Subject identifier"
+        },
+        "MeasurementDate": {
+          "type": "string",
+          "description": "Date of measurement"
+        },
+        "MeasurementTime": {
+          "type": "string",
+          "description": "Time of measurement"
+        },
+        "LengthUnit": {
+          "type": "string",
+          "description": "Units for spatial measurements"
+        },
+        "TimeUnit": {
+          "type": "string",
+          "description": "Units for temporal measurements"
+        },
+        "FrequencyUnit": {
+          "type": "string",
+          "description": "Units for frequency measurements"
+        },
+        "SubjectName": {
+          "type": "string",
+          "description": "Subject name (optional)"
+        },
+        "StudyID": {
+          "type": "string",
+          "description": "Study identifier (optional)"
+        },
+        "ManufacturerName": {
+          "type": "string",
+          "description": "Device manufacturer name (optional)"
+        },
+        "Model": {
+          "type": "string",
+          "description": "Device model (optional)"
+        }
+      },
+      "required": ["SubjectID", "MeasurementDate", "MeasurementTime", "LengthUnit", "TimeUnit", "FrequencyUnit"],
+      "additionalProperties": true
+    },
+    "DataDef": {
+      "type": "object",
+      "title": "Data",
+      "description": "Time series data container",
+      "properties": {
+        "dataTimeSeries": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "description": "2D array of time series data (direct format)"
+            },
+            {
+              "$ref": "#/definitions/AnnotatedArrayDef"
+            }
+          ]
+        },
+        "time": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "Time points array (direct format)"
+            },
+            {
+              "$ref": "#/definitions/AnnotatedArrayDef"
+            }
+          ]
+        },
+        "measurementList": {
+          "$ref": "#/definitions/MeasurementListDef"
+        },
+        "measurementLists": {
+          "$ref": "#/definitions/MeasurementListDef"
+        }
+      },
+      "required": ["dataTimeSeries", "time"],
+      "oneOf": [
+        {
+          "required": ["measurementList"]
+        },
+        {
+          "required": ["measurementLists"]
+        }
+      ],
+      "additionalProperties": true
+    },
+    "MeasurementListDef": {
+      "type": "object",
+      "title": "MeasurementList",
+      "description": "Measurement configuration (structure of arrays format)",
+      "properties": {
+        "sourceIndex": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Source indices for each measurement"
+        },
+        "detectorIndex": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Detector indices for each measurement"
+        },
+        "wavelengthIndex": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Wavelength indices for each measurement"
+        },
+        "wavelengthActual": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Actual wavelengths used"
+        },
+        "wavelengthEmissionActual": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Actual emission wavelengths"
+        },
+        "dataType": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Data type codes for each measurement"
+        },
+        "dataUnit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Units for each measurement"
+        },
+        "dataTypeLabel": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Human-readable data type labels"
+        },
+        "dataTypeIndex": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Data type indices"
+        },
+        "sourcePower": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Source power for each measurement"
+        },
+        "detectorGain": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Detector gain for each measurement"
+        }
+      },
+      "required": ["sourceIndex", "detectorIndex", "wavelengthIndex", "dataType", "dataTypeIndex"],
+      "additionalProperties": true
+    },
+    "StimDef": {
+      "type": "object",
+      "title": "Stim",
+      "description": "Stimulus/event data container",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Stimulus name"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "description": "Stimulus data as 2D array"
+        },
+        "dataLabels": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "Labels for stimulus data columns"
+        }
+      },
+      "required": ["name", "data", "dataLabels"],
+      "additionalProperties": true
+    },
+    "ProbeDef": {
+      "type": "object",
+      "title": "Probe",
+      "description": "Probe geometry and configuration",
+      "properties": {
+        "wavelengths": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "List of wavelengths used"
+        },
+        "wavelengthsEmission": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "List of emission wavelengths"
+        },
+        "sourcePos2D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "description": "2D source positions"
+        },
+        "sourcePos3D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "description": "3D source positions"
+        },
+        "detectorPos2D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "description": "2D detector positions"
+        },
+        "detectorPos3D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "description": "3D detector positions"
+        },
+        "frequencies": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Modulation frequencies"
+        },
+        "timeDelays": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Time delays for time-domain measurements"
+        },
+        "timeDelayWidths": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Time delay gate widths"
+        },
+        "momentOrders": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Moment orders for moment-based analysis"
+        },
+        "correlationTimeDelays": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Correlation time delays"
+        },
+        "correlationTimeDelayWidths": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Correlation time delay widths"
+        },
+        "sourceLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source labels"
+        },
+        "detectorLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Detector labels"
+        },
+        "landmarkPos2D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "description": "2D landmark positions"
+        },
+        "landmarkPos3D": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "description": "3D landmark positions"
+        },
+        "landmarkLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Landmark labels"
+        },
+        "coordinateSystem": {
+          "type": "string",
+          "description": "Coordinate system identifier"
+        },
+        "coordinateSystemDescription": {
+          "type": "string",
+          "description": "Coordinate system description"
+        }
+      },
+      "required": ["wavelengths"],
+      "oneOf": [
+        {
+          "required": ["sourcePos2D"]
+        },
+        {
+          "required": ["sourcePos3D"]
+        }
+      ],
+      "anyOf": [
+        {
+          "required": ["detectorPos2D"]
+        },
+        {
+          "required": ["detectorPos3D"]
+        }
+      ],
+      "additionalProperties": true
+    },
+    "AuxDef": {
+      "type": "object",
+      "title": "Aux",
+      "description": "Auxiliary data channel",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Auxiliary channel name"
+        },
+        "dataTimeSeries": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "description": "Auxiliary time series data"
+        },
+        "dataUnit": {
+          "type": "string",
+          "description": "Units for auxiliary data"
+        },
+        "time": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Time points for auxiliary data"
+        },
+        "timeOffset": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Time offsets for auxiliary data"
+        }
+      },
+      "required": ["name", "dataTimeSeries", "time"],
+      "additionalProperties": true
+    },
+    "AnnotatedArrayDef": {
+      "type": "object",
+      "title": "AnnotatedArray",
+      "description": "JData annotated array format for N-dimensional data",
+      "properties": {
+        "_ArrayType_": {
+          "type": "string",
+          "enum": [
+            "uint8", "int8", "uint16", "int16", "uint32", "int32",
+            "uint64", "int64", "single", "double"
+          ],
+          "description": "Data type of array elements"
+        },
+        "_ArraySize_": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Dimensions of the N-D array"
+        },
+        "_ArrayOrder_": {
+          "type": "string",
+          "enum": ["c", "col", "r", "row"],
+          "description": "Array storage order (c/col for column-major, r/row for row-major)"
+        },
+        "_ArrayData_": {
+          "type": "array",
+          "description": "Raw array data"
+        },
+        "_ArrayZipType_": {
+          "type": "string",
+          "enum": ["zlib", "gzip", "lzma", "lz4", "blosc"],
+          "description": "Compression method"
+        },
+        "_ArrayZipSize_": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ],
+          "description": "Size of compressed data"
+        },
+        "_ArrayZipData_": {
+          "type": "string",
+          "description": "Base64-encoded compressed byte stream"
+        }
+      },
+      "required": ["_ArrayType_", "_ArraySize_"],
+      "oneOf": [
+        {
+          "required": ["_ArrayData_"]
+        },
+        {
+          "required": ["_ArrayZipData_", "_ArrayZipType_"]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "NIRSGroupDef": {
+      "title": "NIRSGroup",
+      "description": "Container for organizing multiple NIRS datasets hierarchically",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NIRSContainerDef"
+          }
+        },
+        {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "$ref": "#/definitions/NIRSContainerDef"
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "NIRSObjectDef": {
+      "title": "NIRSObject",
+      "description": "Container for individual NIRS datasets with optional metadata",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NIRSContainerDef"
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "_DataInfo_": {
+              "type": "object",
+              "description": "JData-compatible metadata record"
+            },
+            "_DataLink_": {
+              "type": "string",
+              "description": "External file reference for linked data"
+            }
+          },
+          "patternProperties": {
+            "^SNIRFData(\\(.+\\))?$": {
+              "$ref": "#/definitions/SNIRFDataDef"
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "NIRSContainerDef": {
+      "type": "object",
+      "description": "Generic container that can hold any JSNIRF components",
+      "properties": {
+        "SNIRFData": {
+          "$ref": "#/definitions/SNIRFDataDef"
+        },
+        "NIRSGroup": {
+          "$ref": "#/definitions/NIRSGroupDef"
+        },
+        "NIRSObject": {
+          "$ref": "#/definitions/NIRSObjectDef"
+        },
+        "_DataInfo_": {
+          "type": "object",
+          "description": "JData-compatible metadata record"
+        },
+        "_DataLink_": {
+          "type": "string",
+          "description": "External file reference"
+        }
+      },
+      "patternProperties": {
+        "^SNIRFData\\(.+\\)$": {
+          "$ref": "#/definitions/SNIRFDataDef"
+        },
+        "^NIRSGroup\\(.+\\)$": {
+          "$ref": "#/definitions/NIRSGroupDef"
+        },
+        "^NIRSObject\\(.+\\)$": {
+          "$ref": "#/definitions/NIRSObjectDef"
+        }
+      },
+      "additionalProperties": true
+    },
+    "_DataInfoDef": {
+      "type": "object",
+      "title": "_DataInfo_",
+      "description": "JData-compatible metadata record",
+      "additionalProperties": true
+    },
+    "ByteStreamDef": {
+      "type": "object",
+      "title": "_ByteStream_",
+      "description": "JData byte stream container",
+      "properties": {
+        "_ByteStream_": {
+          "type": "string",
+          "description": "Base64-encoded byte stream"
+        }
+      },
+      "required": ["_ByteStream_"],
+      "additionalProperties": false
+    }
+  }
+}
